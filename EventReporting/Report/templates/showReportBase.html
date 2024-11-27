@@ -1,0 +1,32 @@
+
+
+
+
+
+<form  action ="{% url 'addReport' %}" method = "POST"  >
+    {% csrf_token %}
+
+   
+  <tr>
+    <td> <a class="btn btn-info  " href="{% url 'editReport' report.pk %}" role="button">Edit</a></td>
+
+   <td>{{report.Name}}</td>
+   <td>{{report.Location}}</td>
+
+  <td>{{report.IncidentDate}}</td>
+
+   <td>{{report.ReportDate}}</td>
+
+    <td>{{report.IncidentType}}</td>
+        
+
+    
+
+       
+  <td><textarea rows="4" cols="22" readonly style="border: none">{{report.IncidentDescription}}</textarea></td>
+
+
+    
+    <td><a class="btn btn-secondary  " href="{% url 'deleteReport' report.pk %}" onclick="return confirm('Are you sure you want to delete this entry?')" role="button">Delete</a></td></tr>
+    
+</form>

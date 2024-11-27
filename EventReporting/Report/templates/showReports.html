@@ -1,0 +1,32 @@
+{% extends 'base.html'%}
+
+
+
+{% block content%}
+
+<h1 class = "text-center  mb-5">Incident Reports</h1>
+
+<table border = "1" class = "table ">
+
+
+
+{% if user.is_authenticated %} 
+
+
+<table border = "1" class = "table ">
+    <th>Edit</th><th><a href="?order_by=Name">Requestor</a></th><th><a href="?order_by=Location">Location</a></th><th><a href="?order_by=IncidentDate">Incident Date</a></th><th><a href="?order_by=ReportDate">Report Date</a></th><th><a href="?order_by=IncidentType">Incident Type</a></th><th>Description</th></th><th>Delete</th>
+
+{%for report in reports%}
+
+{%include 'showReportBase.html'%}
+
+{% endfor %}
+</table>
+
+{% else %}
+<div class = "text-center">
+    <h1>Please Login to see Reports</h1>
+</div>
+{%endif%}
+
+{%endblock%}

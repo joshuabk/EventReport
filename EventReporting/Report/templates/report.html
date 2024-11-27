@@ -1,0 +1,63 @@
+{% extends 'base.html'%}
+
+
+{% block content%}
+
+
+<form class="form-inline my-2 my-lg-0" action ="{% url 'addReport' %}" method = "POST"  >
+    {% csrf_token %}
+
+   <div class="card mx-auto" id  = 'mainCard'>
+    <div class="card-body mx-auto">
+    {{errors}}
+    <H5 class = "text-center">Incident Report Form</H5>
+    <table>
+  
+
+    <tr><td>Reporter: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Reporter Name"  name = 'Name'></td></tr>
+    
+    <tr><td>Location: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Location"  name = 'Location'></td></tr>
+     
+    <tr><td>Report Date</td><td> <input type="date" class="form-control" id="reportDate" name="ReportDate"></td></tr>
+    
+    <tr><td>Incident Date</td><td> <input type="date" class="form-control" id="daInput" name="IncidentDate"></td></tr>
+
+    <tr><td>Patient Name: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Patient Name"  name = 'PatientName'></td></tr>
+    
+    <tr><td>Patient MRN: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Patient MRN"  name = 'PatientMRN'></td></tr>
+    
+    <tr><td>Incident Type: </td><td> <select name ='IncidentType' class="form-control">
+        <option value="" disabled selected>select</option><option value="miss">miss</option> <option value="unsafe condition">unsafe condition</option> <option value="process improvement">process imporvement</option>  <option value="event">event</option> </select></td></tr>
+
+    <tr><td>Incident Description: </td><td><textarea rows="3" cols="40" name = "IncidentDescription" ></textarea></td></tr>
+
+        
+
+</table><br>
+
+</div>
+<button class="btn btn-outline-success my-2 my-sm-0 ml-5 mr-5" type="submit">Save</button>
+</div>
+
+<script>
+    // Get today's date in the format YYYY-MM-DD
+    const today = DateTime.now().setZone('America/New_York');
+    alert(today)
+    alert(`Current date in New York: ${today.toFormat('yyyy-MM-dd')}`);
+    // Set the value of the date input to today's date
+    document.getElementById('reportDate').value = today;
+  </script>
+
+   
+    
+</form>
+
+<style>
+        #mainCard{
+            margin-bottom: 150px
+        }
+    
+    </style>
+
+
+{%endblock%}

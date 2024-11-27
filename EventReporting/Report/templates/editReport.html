@@ -1,0 +1,93 @@
+{% extends 'base.html'%}
+
+
+{% block content%}
+
+
+<form class="form-inline my-2 my-lg-0" action ="{% url 'editReport' report.pk %}" method = "POST"  >
+    {% csrf_token %}
+    
+   <div class="card mx-auto" id  = 'mainCard'>
+    <div class="card-body mx-auto">
+    {{errors}}
+    <table>
+  
+
+    <tr><td>Requestor: </td><td><input class="form-control mr-sm-2" type="text" placeholder="requestor"  name = 'Requestor' value =  '{{request.Requestor}}'></td></tr>
+    <tr><td>Requestor Email: </td><td><input class="form-control mr-sm-2" type="email" placeholder="email"  name = 'Email' value =  '{{request.Email}}'></td></tr>
+
+    <tr><td>Requestor Telephone: </td><td><input class="form-control mr-sm-2" type="tel" placeholder="phone number"  name = 'Phone' value =  '{{request.Phone}}'></td></tr>
+    
+    {% if request.EMRSystem == "Aria" %}
+    <tr><td>EMR System: </td><td> <select name ='EMRSystem' class="form-control">
+        <option value="Aria" selected>Aria</option> <option value="Mosaic">MOSAIQ</option> <option value="Both">Both</option>  <option value="Other">Other</option> </select></td></tr>
+    {% elif request.EMRSystem == "Mosaic" %}
+    <tr><td>EMR System: </td><td> <select name ='EMRSystem' class="form-control">
+        <option value="Aria" >Aria</option> <option value="Mosaic" selected>MOSAIQ</option> <option value="Both">Both</option>  <option value="Other">Other</option> </select></td></tr>
+
+    {% elif request.EMRSystem == "Both" %}
+    <tr><td>EMR System: </td><td> <select name ='EMRSystem' class="form-control">
+        <option value="Aria" >Aria</option> <option value="Mosaic" selected>MOSAIQ</option> <option value="Both" selected>Both</option>  <option value="Other">Other</option> </select></td></tr>
+
+    {% elif request.EMRSystem == "Other" %}
+    <tr><td>EMR System: </td><td> <select name ='EMRSystem' class="form-control">
+        <option value="Aria" >Aria</option> <option value="Mosaic" selected>MOSAIQ</option> <option value="Both">Both</option>  <option value="Other" selected>Other</option> </select></td></tr>
+
+    {%endif%}
+
+    <tr><td>Request: </td><td><textarea rows="3" cols="50" name = "Request" >{{request.Request}}</textarea></td></tr>
+    
+    <tr><td>Reason: </td><td><textarea rows="3" cols="50" name = "Reason"  >{{request.Reason}}</textarea></td></tr>
+    
+    {% if request.Priority == "Low" %}
+    <tr><td>Priority: </td><td> <select name ='Priority' class="form-control">
+        <option value="High" >High</option> <option value="Medium">Medium</option>  <option value="Low" selecited>Low</option></select></td></tr>
+
+    {% elif request.Priority == "Medium" %}
+    <tr><td>Priority: </td><td> <select name ='Priority' class="form-control">
+        <option value="High" >High</option> <option value="Medium"selected>Medium</option>  <option value="Low" selecited>Low</option></select></td></tr>
+    
+    {% elif request.Priority == "High" %}
+    <tr><td>Priority: </td><td> <select name ='Priority' class="form-control">
+        <option value="High" selected>High</option> <option value="Medium"selected>Medium</option>  <option value="Low" selecited>Low</option></select></td></tr>
+   
+    {%endif%}
+    <tr><td>Who's Affected: </td><td><textarea rows="3" cols="50" name = "Impact" >{{request.Impact}}</textarea></td></tr>
+    
+
+
+
+    {% if request.Status == "Pending" %}
+    <tr><td>Status: </td><td> <select name ='Status' class="form-control">
+        <option value="Pending" selected >Pending</option> <option value="Complete">Complete</option> </select></td></tr>
+    {% elif request.Status == "Complete" %}
+    <tr><td>Status: </td><td> <select name ='Status' class="form-control">
+        <option value="Pending" >Pending</option> <option value="Complete"  selected>Complete</option> </select></td></tr>
+
+    {%endif%}
+
+    <tr><td>Team Member Assigned: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Team Member"  name = 'TeamMember' value =  '{{request.TeamMember}}'></td></tr>
+    <tr><td>Comment: </td><td><textarea rows="3" cols="50" name = "Comment"  >{{request.Comment}}</textarea></td></tr>
+    
+    <tr><td>Action Taken: </td><td><textarea rows="3" cols="50" name = "ActionTaken"  >{{request.ActionTaken}}</textarea></td></tr>
+    
+
+</table><br>
+
+</div>
+<button class="btn btn-outline-success my-2 my-sm-0 ml-5 mr-5" type="submit">Save</button>
+</div>
+
+   
+    
+</form>
+
+<style>
+        #mainCard{
+            margin-bottom: 150px
+        }
+    
+    </style>
+
+
+{%endblock%}
