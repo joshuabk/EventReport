@@ -72,39 +72,33 @@ def deleteReport(request, report_id):
     return redirect('showReports')
 
 
-def editReport(request, request_id):
+def editReport(request, report_id):
     if request.method == "POST":
-        requestEMR = IncidentReport.objects.get(pk = request_id)
-        form = editReportForm(request.POST or None, instance=requestEMR)
+        report = IncidentReport.objects.get(pk = report_id)
+        form = editReportForm(request.POST or None, instance=report)
         print(form.errors)
         if form.is_valid():
             
             messages.success(request, ('Item has been Edited'))
            
-            temReq = form.save(commit = False)
+            temReq = form.save()
 
-            if temReq.Status =="Complete" and  temReq.DateCompleted ==None:
-                temReq.DateCompleted = datetime.now()
-                temReq.save()
-            else:
-                temReq.save()
-
+           
             requests = list(IncidentReport.objects.all())
             
             
-            return redirect('showActiveRequests')
+            return redirect('showReports')
         else:
            
             print("Farts")
             messages.error(request, "Error")
-            requests = IncidentReport.objects.all
-            return redirect('showActiveRequests')
+            requests = IncidentReport.objects.all()
+            return redirect('showReports')
            
     else:
         
-        requestEMR = IncidentReport.objects.get(pk = request_id)
-        return render(request, 'editRequest.html', {'request':requestEMR})
-
+        report = IncidentReport.objects.get(pk = report_id)
+        return render(request, 'editReport.html', {'report':report})
 
 
 
