@@ -14,10 +14,17 @@ from datetime import datetime
 from .forms import incidentForm, editReportForm
 from .models import IncidentReport
 
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from io import BytesIO
+import os
+import textwrap
+
 from django.core import mail
 from django.core.mail.backends.smtp import EmailBackend
-
-
 
 
 
@@ -27,7 +34,7 @@ def addReport(request):
         form = incidentForm(request.POST or None)
 
         if form.is_valid():
-            form.save()
+            incident = form.save()
             messages.success(request, ('Item has been Added to the list!'))
             print('send mail')
 
@@ -50,8 +57,8 @@ def addReport(request):
 
             #email.send()
             print('mail sent')'''
-
             
+            createPDF(incident)
             return render(request, 'reportSuccess.html', {})
         else:
             messages.error(request, "Error")
@@ -83,7 +90,6 @@ def editReport(request, report_id):
            
             temReq = form.save()
 
-           
             requests = list(IncidentReport.objects.all())
             
             
@@ -99,7 +105,6 @@ def editReport(request, report_id):
         
         report = IncidentReport.objects.get(pk = report_id)
         return render(request, 'editReport.html', {'report':report})
-
 
 
 
@@ -125,3 +130,46 @@ def logoutUser(request):
     logout(request)
     messages.success(request, ('You have Been Logged Out'))
     return redirect('login')
+
+
+
+def createPDF(incident):
+     
+        
+        # Define the directory where PDFs will be saved
+        pdf_directory = 'C:\PDF'
+        if not os.path.exists(pdf_directory):
+            os.makedirs(pdf_directory)  # Create the directory if it doesn't exist
+
+        # Create a file path for the PDF
+        pdf_file_path = os.path.join(pdf_directory, f"incident_{incident.id}.pdf")
+
+        # Create the PDF
+        c = canvas.Canvas(pdf_file_path, pagesize=letter)
+        
+        # Register a custom font if desired
+        #pdfmetrics.registerFont(TTFont('Roboto', 'path/to/Roboto-Regular.ttf'))
+        
+        # Write content to PDF (Same as before)
+        c.setFont("Helvetica", 16)
+        c.drawString(220, 750, f"Incident Report # {incident.id}")
+        
+        c.setFont("Helvetica", 12)
+        c.drawString(50, 720, f"Report Date: {incident.ReportDate.strftime('%Y-%m-%d %H:%M')}")
+        c.drawString(50, 700, f"Incident Date: {incident.IncidentDate.strftime('%Y-%m-%d %H:%M')}")
+        c.drawString(50, 680, f"Reporter: {incident.Name}")
+        c.drawString(50, 660, f"Location: {incident.Location}")
+        c.drawString(50, 640, f"Patient Name: {incident.PatientName}")
+        c.drawString(50, 620, f"Patient MRN: {incident.PatientMRN}")
+        c.drawString(50, 600, f"Type: {incident.IncidentType}")
+        c.drawString(50, 565, f"Description:" )
+        
+        c.setFont("Helvetica", 12)
+        y_pos = 545
+        lines =  textwrap.wrap(incident.IncidentDescription, width=95)
+        for line in lines:
+            c.drawString(50, y_pos, line)
+            y_pos -= 15
+        
+        # Save the PDF
+        c.save()

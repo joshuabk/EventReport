@@ -1,32 +1,36 @@
+<title>Incident Reports</title>
+<style>
+  tr:nth-child(odd) {
+    background-color: #ffffff;
+  }
 
-
-
-
-
-<form  action ="{% url 'addReport' %}" method = "POST"  >
-    {% csrf_token %}
-
+</style>
    
-  <tr>
-    <td> <a class="btn btn-info  " href="{% url 'editReport' report.pk %}" role="button">Edit</a></td>
+ 
 
+   <td>{{report.id}}</td> 
    <td>{{report.Name}}</td>
    <td>{{report.Location}}</td>
 
-  <td>{{report.IncidentDate|date:'m/d/Y'}}</td>
+   <td>{{report.IncidentDate|date:'m/d/Y'}}</td>
 
    <td>{{report.ReportDate|date:'m/d/Y'}}</td>
 
-    <td>{{report.IncidentType}}</td>
+   <td>{{report.IncidentType}}</td>
         
-
-    
-
        
-  <td><textarea rows="4" cols="22" readonly style="border: none">{{report.IncidentDescription}}</textarea></td>
+    <td><textarea rows="3" cols="20" readonly style="border: none">{{report.IncidentDescription}}</textarea></td>
 
+    <td>
+    <form action="{% url 'editReport' report.pk %}" method="get" style="display:inline;">
+        {% csrf_token %}
+       <button class="edit"  role="button"><i class="fa fa-edit"></i></button>
+    </form></td>
+    <td>
+    <form action="{% url 'deleteReport' report.pk %}" method="post" style="display:inline;">
+      {% csrf_token %}
+      <button class="delete"  onclick="return confirm('Are you sure you want to delete this entry?')" role="button"><i class="fa fa-trash"></i></button>
+  </form></td>
+   
 
-    
-    <td><a class="btn btn-secondary  " href="{% url 'deleteReport' report.pk %}" onclick="return confirm('Are you sure you want to delete this entry?')" role="button">Delete</a></td></tr>
-    
-</form>
+ 
