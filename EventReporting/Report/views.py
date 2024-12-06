@@ -67,6 +67,12 @@ def addReport(request):
     else:
         return render(request, 'report.html', {})
 
+def showSingleReport(request, report_id):
+    if request.method == "GET":
+        showReport = IncidentReport.objects.get(pk = report_id)
+        return render(request, 'showSingleReport.html', {'report':showReport})
+
+
 def showReports(request):
     orderBy = request.GET.get('order_by', '-ReportDate')
     reports = IncidentReport.objects.all().order_by(orderBy)

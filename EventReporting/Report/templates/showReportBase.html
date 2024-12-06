@@ -22,6 +22,11 @@
     <td><textarea rows="3" cols="20" readonly style="border: none">{{report.IncidentDescription}}</textarea></td>
 
     <td>
+      <form action="{% url 'showSingleReport' report.pk %}" method="get" style="display:inline;">
+          {% csrf_token %}
+         <button class="show"  role="button"><i class="fas fa-file-invoice"></i></button>
+      </form></td>
+    <td>
     <form action="{% url 'editReport' report.pk %}" method="get" style="display:inline;">
         {% csrf_token %}
        <button class="edit"  role="button"><i class="fa fa-edit"></i></button>
