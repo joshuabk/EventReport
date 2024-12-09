@@ -13,29 +13,29 @@
     <table>
   
 
-    <tr><td>Reporter: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Reporter Name"  name = 'Name'></td></tr>
+    <tr><td>Reporter: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Reporter Name"  name = 'Name' value = {{report.Name}}></td></tr>
     
-    <tr><td>Location: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Location"  name = 'Location'></td></tr>
+    <tr><td>Location: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Location"  name = 'Location' value = {{report.Location}}></td></tr>
          
-    <tr><td>Report Date</td><td> <input type="date" class="form-control" id="reportDate" name="ReportDate"></td></tr>
+    <tr><td>Report Date</td><td> <input type="date" class="form-control" id="reportDate" name="ReportDate" value = {{report.ReportDate|date:'Y-m-d'}}></td></tr>
 
-    <tr><td>Incident Date</td><td> <input type="date" class="form-control" id="daInput" name="IncidentDate"></td></tr>
+    <tr><td>Incident Date</td><td> <input type="date" class="form-control" id="daInput" name="IncidentDate" value = {{report.IncidentDate|date:'Y-m-d'}}></td></tr>
 
-    <tr><td>Patient Name: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Patient Name"  name = 'PatientName'></td></tr>
+    <tr><td>Patient Name: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Patient Name"  name = 'PatientName' value = {{report.PatientName}}></td></tr>
     
-    <tr><td>Patient MRN: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Patient MRN"  name = 'PatientMRN'></td></tr>
+    <tr><td>Patient MRN: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Patient MRN"  name = 'PatientMRN' value = {{report.PatientMRN}}></td></tr>
     
     
   
-    tr><td>Incident Type: </td><td> <select name ='IncidentType' class="form-control">
-       <option value="near miss" {% if report.IncidentType == "near miss" %}selected{% endif %}>near miss</option> 
-       <option value="unsafe condition" {% if report.IncidentType == "unsafe condition" %}selected{% endif %}>unsafe condition</option> 
-       <option value="process improvement" {% if report.IncidentType == "process improvement" %}selected{% endif %}>process imporvement</option>  
-       <option value="event" {% if report.IncidentType == "event" %}selected{% endif %}>event</option> </select></td></tr>
+    <td>Incident Type: </td><td> <select name ='IncidentType' class="form-control">
+       <option value="Near Miss" {% if report.IncidentType == "Near Miss" %}selected{% endif %}>Near Miss</option> 
+       <option value="Unsafe Condition" {% if report.IncidentType == "Unsafe Condition" %}selected{% endif %}>Unsafe Condition</option> 
+       <option value="Process Improvement" {% if report.IncidentType == "Process Improvement" %}selected{% endif %}>Process Imporvement</option>  
+       <option value="event" {% if report.IncidentType == "Event" %}selected{% endif %}>Event</option> </select></td></tr>
    
 
 
-       <tr><td>Incident Description: </td><td><textarea rows="3" cols="40" name = "IncidentDescription" ></textarea></td></tr>
+       <tr><td>Incident Description: </td><td><textarea rows="3" cols="40" name = "IncidentDescription">{{report.IncidentDescription}}</textarea></td></tr>
     
 
 
@@ -45,7 +45,7 @@
 </table><br>
 
 </div>
-<button class="btn btn-outline-success my-2 my-sm-0 ml-5 mr-5" type="submit">Save</button>
+<button class="btn btn-outline-success btn-sm my-2 my-sm-0 ml-5 mr-5" type="submit">Save</button>
 </div>
 
    
