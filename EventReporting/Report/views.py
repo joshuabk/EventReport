@@ -125,8 +125,12 @@ def loginUser(request):
             return redirect(showReports)
             
         else:
-            messages.success(request, ('Error, please try again'))
-            return redirect('login')
+            storage = messages.get_messages(request)
+            storage.used = True
+
+
+            messages.error(request, ('Incorrect login credentials'))
+            return render(request, 'login.html')
 
     else:
         
