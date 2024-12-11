@@ -147,7 +147,7 @@ def createPDF(incident):
      
         
         # Define the directory where PDFs will be saved
-        pdf_directory = 'C:\PDF'
+        pdf_directory = 'P:\\Outpatient Oncology\\17-INCIDENT LEARNING REPORT'
         if not os.path.exists(pdf_directory):
             os.makedirs(pdf_directory)  # Create the directory if it doesn't exist
 
@@ -169,7 +169,7 @@ def createPDF(incident):
         c.drawString(50, 700, f"Incident Date: {incident.IncidentDate.strftime('%Y-%m-%d %H:%M')}")
         c.drawString(50, 680, f"Reporter: {incident.Name}")
         c.drawString(50, 660, f"Location: {incident.Location}")
-        c.drawString(50, 640, f"Patient Name: {incident.PatientName}")
+        c.drawString(50, 640, f"Patient Initials: {incident.PatientName}")
         c.drawString(50, 620, f"Patient MRN: {incident.PatientMRN}")
         c.drawString(50, 600, f"Type: {incident.IncidentType}")
         c.drawString(50, 565, f"Description:" )
