@@ -15,7 +15,19 @@
 
     <tr><td>Reporter: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Reporter Name"  name = 'Name' value = {{report.Name}}></td></tr>
     
-    <tr><td>Location: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Location"  name = 'Location' value = {{report.Location}}></td></tr>
+    <tr><td>Location: </td><td><select class="form-control"  name = 'Location'><option value="Atlanta" {% if report.Location == "Atlanta" %}selected{% endif %}>Atlanta</option>
+        <option value="Cherokee" {% if report.Location == "Cherokee" %}selected{% endif %}>Cherokee</option>
+        <option value="Alpharetta" {% if report.Location == "Alpharetta" %}selected{% endif %}>Alpharetta</option>
+        <option value="Forsyth" {% if report.Location == "Forsyth" %}selected{% endif %}>Forsyth</option>
+        <option value="Duluth Hwy" {% if report.Location == "Duluth Hwy" %}selected{% endif %}>Duluth Hwy</option>
+        <option value="Gwinnett" {% if report.Location == "Gwinnett" %}selected{% endif %}>Gwinnett</option>
+        <option value="Philip Blvd" {% if report.Location == "Philip Blvd" %}selected{% endif %}>Philip Blvd</option>
+        <option value="Preston Ridge" {% if report.Location == "Preston Ridge" %}selected{% endif %}>Preston Ridge</option>
+        <option value="Midtown" {% if report.Location == "Midtown" %}selected{% endif %}>Midtown</option>
+        <option value="Macon" {% if report.Location == "Macon" %}selected{% endif %}>Macon</option>
+        <option value="Lake Oconee" {% if report.Location == "Lake Oconee" %}selected{% endif %}>Lake Oconee</option>
+        <option value="Hawkinsville" {% if report.Location == "Hawkinsville" %}selected{% endif %}>Hawkinsville</option>
+        <option value="South Atlanta" {% if report.Location == "South Atlanta" %}selected{% endif %}>South Atlanta</option></select></td></tr>
          
     <tr><td>Report Date</td><td> <input type="date" class="form-control" id="reportDate" name="ReportDate" value = {{report.ReportDate|date:'Y-m-d'}}></td></tr>
 
@@ -27,7 +39,7 @@
     
     
   
-    <td>Incident Type: </td><td> <select name ='IncidentType' class="form-control">
+    <td>Incident Type: </td><td><select name ='IncidentType' class="form-control">
        <option value="Near Miss" {% if report.IncidentType == "Near Miss" %}selected{% endif %}>Near Miss</option> 
        <option value="Unsafe Condition" {% if report.IncidentType == "Unsafe Condition" %}selected{% endif %}>Unsafe Condition</option> 
        <option value="Process Improvement" {% if report.IncidentType == "Process Improvement" %}selected{% endif %}>Process Imporvement</option>  
