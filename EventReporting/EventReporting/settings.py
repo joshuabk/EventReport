@@ -104,6 +104,18 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
+#EMAIL_USE_TLS = True
+EMAIL_USE_SSL = True
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT=465
+EMAIL_HOST_USER = 'northsideemr@gmail.com'
+<<<<<<< HEAD
+EMAIL_HOST_PASSWORD = 'eououjkkxaallvnu'
+=======
+EMAIL_HOST_PASSWORD = 'EMRTrack'
+>>>>>>> 7a8a1491423eccdfa02f5370e0bfb447cc10309c
+DEFAULT_EMAIL_FROM = 'northsideemr@gmail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 LANGUAGE_CODE = "en-us"
 

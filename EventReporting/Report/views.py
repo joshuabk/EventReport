@@ -40,23 +40,23 @@ def addReport(request):
 
             connection = mail.get_connection()
             print(connection)
-            '''if isinstance(connection, EmailBackend):
+            if isinstance(connection, EmailBackend):
                 connection.open()
-                print("connection is open")'''
+                print("connection is open")
              
            
-            ''' body = 'The new request from '+ request.POST.get('Name')+' is as follows: \n\n EMR System: '+  request.POST.get('EMRSystem')+'\n \n Request: '+ request.POST.get('Request')+'  \n\n Reason: '+ request.POST.get('Reason')+'\n\n Priority: '+  request.POST.get('Priority')+'\n\n Impact: '+  request.POST.get('Impact') +'\n\nHere is the link to the EMR Request page http://10.40.71.201:2000/'  
+            body = 'A new incident report has been submitted \n\n Here is the link to the Incident reports page http://167.183.14.241:2002/'  
             
             print(body)
             email = EmailMessage(
-                  'New EMR Change Request',
+                  'New Incident Report',
                    body,
                     settings.EMAIL_HOST_USER,
-                   ['joshua.kessler@northside.com', 'RadiationOncologyEMR@northside.com',])
+                   ['joshua.kessler@northside.com'])#, 'Chante.Frazier@northside.com','Sarah.Castillo@northside.com'])
             
 
-            #email.send()
-            print('mail sent')'''
+            email.send()
+            print('mail sent')
             
             createPDF(incident)
             return render(request, 'reportSuccess.html', {})
@@ -147,7 +147,15 @@ def createPDF(incident):
      
         
         # Define the directory where PDFs will be saved
+<<<<<<< HEAD
         pdf_directory = 'C:\PDF' #'P:\\Outpatient Oncology\\17-INCIDENT LEARNING REPORT'
+=======
+<<<<<<< HEAD
+        pdf_directory =  'P:\\Outpatient Oncology\\17-INCIDENT LEARNING REPORT'
+=======
+        pdf_directory = 'C:\PDF' #'P:\\Outpatient Oncology\\17-INCIDENT LEARNING REPORT'
+>>>>>>> 7a8a1491423eccdfa02f5370e0bfb447cc10309c
+>>>>>>> 4c1181c5816e6348e7c3c97283f6057557f9d08a
         if not os.path.exists(pdf_directory):
             os.makedirs(pdf_directory)  # Create the directory if it doesn't exist
 
