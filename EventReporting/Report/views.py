@@ -145,17 +145,13 @@ def logoutUser(request):
 
 def createPDF(incident):
      
-        
         # Define the directory where PDFs will be saved
-<<<<<<< HEAD
+
         pdf_directory = 'C:\PDF' #'P:\\Outpatient Oncology\\17-INCIDENT LEARNING REPORT'
-=======
-<<<<<<< HEAD
-        pdf_directory =  'P:\\Outpatient Oncology\\17-INCIDENT LEARNING REPORT'
-=======
-        pdf_directory = 'C:\PDF' #'P:\\Outpatient Oncology\\17-INCIDENT LEARNING REPORT'
->>>>>>> 7a8a1491423eccdfa02f5370e0bfb447cc10309c
->>>>>>> 4c1181c5816e6348e7c3c97283f6057557f9d08a
+
+
+        #pdf_directory =  'P:\\Outpatient Oncology\\17-INCIDENT LEARNING REPORT'
+
         if not os.path.exists(pdf_directory):
             os.makedirs(pdf_directory)  # Create the directory if it doesn't exist
 
