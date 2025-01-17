@@ -14,7 +14,11 @@
     <table>
   
 
-    <tr><td>Reporter: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Reporter Name"  name = 'Name'></td></tr>
+    <tr><td>Reporter Name: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Optional"  name = 'Name'></td></tr>
+
+    <tr><td>Team Member: </td><td> <select name ='TeamMember' class="form-control">
+        <option value="" disabled selected>select</option><option value="Therapist">Therapist</option> <option value="Dosimetrist">Dosimetrist</option> <option value="Physicist">Physicist</option> <option value="Nurse">Nurse</option> <option value="Radiation Oncologist">Radiation Oncologist</option><option value="Administrator">Admisitrator</option> </select></td></tr>
+
     
     <tr><td>Location: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Location"  name = 'Location'></td></tr>
      
@@ -25,7 +29,10 @@
     <tr><td>Patient MRN: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Patient MRN"  name = 'PatientMRN'></td></tr>
     
     <tr><td>Incident Type: </td><td> <select name ='IncidentType' class="form-control">
-        <option value="" disabled selected>select</option><option value="Near Miss">Near Miss</option> <option value="Unsafe Condition">Unsafe Condition</option> <option value="Process Improvement">Process Imporvement</option>  <option value="Event">Event</option> </select></td></tr>
+        <option value="" disabled selected>select</option><option value="Near Miss">Near Miss</option> <option value="Unsafe Condition">Unsafe Condition</option> <option value="Process Improvement">Process Improvement</option>  <option value="Treatment Deviation">Treatment Deviation</option> </select></td></tr>
+
+    <tr><td>Stage of Catch: </td><td> <select name ='StageOfCatch' class="form-control">
+        <option value="" disabled selected>select</option><option value="Simulation">Simulation</option> <option value="Planning">Planning</option> <option value="Plan Review">Plan Review</option> <option value="Initial Check">Initial Check</option><option value="Treatment">Treatment</option><option value="Treatment Review">Treatment Review</option><option value="Post Treatment">Post Treatment</option></select></td></tr>
 
     <tr><td>Incident Description: </td><td><textarea rows="4" cols="50" name = "IncidentDescription" ></textarea></td></tr>
 

@@ -147,7 +147,7 @@ def createPDF(incident):
      
         
         # Define the directory where PDFs will be saved
-        pdf_directory = 'P:\\Outpatient Oncology\\17-INCIDENT LEARNING REPORT'
+        pdf_directory = 'C:\PDF' #'P:\\Outpatient Oncology\\17-INCIDENT LEARNING REPORT'
         if not os.path.exists(pdf_directory):
             os.makedirs(pdf_directory)  # Create the directory if it doesn't exist
 

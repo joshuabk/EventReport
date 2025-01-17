@@ -13,7 +13,15 @@
     <table>
   
 
-    <tr><td>Reporter: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Reporter Name"  name = 'Name' value = {{report.Name}}></td></tr>
+    <tr><td>Reporter Name: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Reporter Name"  name = 'Name' value = {{report.Name}}></td></tr>
+
+    <td>TeamMember: </td><td> <select name ='TeamMember' class="form-control">
+        <option value="Therapist" {% if report.TeamMember == "Therapist" %}selected{% endif %}>Therapist</option> 
+        <option value="Dosimetrist" {% if report.TeamMember == "Dosimetrist" %}selected{% endif %}>Dosimetrist</option> 
+        <option value="Physicst" {% if report.TeamMember == "Physicst" %}selected{% endif %}>Physicst</option>  
+        <option value="Nurse" {% if report.TeamMember == "Nurse" %}selected{% endif %}>"Nurse"</option> 
+        <option value="Radiation Oncologist" {% if report.TeamMember == "Radiation Oncologist" %}selected{% endif %}>"Radiation Oncologist"</option>
+        <option value="Administrator" {% if report.TeamMember == "Administrator" %}selected{% endif %}>"Administrator"</option></select></td></tr>
     
     <tr><td>Location: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Location"  name = 'Location' value = {{report.Location}}></td></tr>
          
@@ -31,9 +39,17 @@
        <option value="Near Miss" {% if report.IncidentType == "Near Miss" %}selected{% endif %}>Near Miss</option> 
        <option value="Unsafe Condition" {% if report.IncidentType == "Unsafe Condition" %}selected{% endif %}>Unsafe Condition</option> 
        <option value="Process Improvement" {% if report.IncidentType == "Process Improvement" %}selected{% endif %}>Process Imporvement</option>  
-       <option value="event" {% if report.IncidentType == "Event" %}selected{% endif %}>Event</option> </select></td></tr>
+       <option value="Treatment Deviation" {% if report.IncidentType == "Treatment Deviation" %}selected{% endif %}>Treatment Deviation</option> </select></td></tr>
    
-
+    <td>StageOfCatch: </td><td> <select name ='StageOfCatch' class="form-control">
+        <option value="Simulation" {% if report.StageOfCatch == "Simulation" %}selected{% endif %}>Simulation</option> 
+        <option value="Planning" {% if report.StageOfCatch == "Planning" %}selected{% endif %}>Planning</option> 
+        <option value="Plan Review" {% if report.StageOfCatch == "Plan Review" %}selected{% endif %}>Plan Review</option>  
+        <option value="Initial Check" {% if report.StageOfCatch == "Initial Check" %}selected{% endif %}>Initial Check</option> 
+        <option value="Treatment" {% if report.StageOfCatch == "Treatment" %}selected{% endif %}>Treatment</option>
+        <option value="Treatment Review" {% if report.StageOfCatch == "Treatment Review" %}selected{% endif %}>Treatment Review</option>
+        <option value="Post Treatment" {% if report.StageOfCatch == "Post Treatment" %}selected{% endif %}>Post Treatment</option></select></td></tr> 
+    
 
        <tr><td>Incident Description: </td><td><textarea rows="3" cols="40" name = "IncidentDescription">{{report.IncidentDescription}}</textarea></td></tr>
     

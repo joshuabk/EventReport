@@ -7,7 +7,7 @@ class incidentForm(forms.ModelForm):
     
     class Meta:
         model = IncidentReport
-        fields= ["Name", "Location",  "IncidentDate", "PatientName", "PatientMRN","IncidentType", "IncidentDescription" ]
+        fields= ["Name", "TeamMember","Location",  "IncidentDate", "PatientName", "PatientMRN","IncidentType","StageOfCatch", "IncidentDescription" ]
 
 
 
@@ -16,4 +16,4 @@ class editReportForm(forms.ModelForm):
 
     class Meta:
         model = IncidentReport
-        fields= ["Name", "Location", "IncidentDate", "PatientName", "PatientMRN", "IncidentType", "IncidentDescription" ]
+        fields= ["Name", "TeamMember", "Location", "IncidentDate", "PatientName", "PatientMRN", "IncidentType", "StageOfCatch", "IncidentDescription" ]

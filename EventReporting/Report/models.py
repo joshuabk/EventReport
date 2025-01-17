@@ -5,6 +5,8 @@ from django.db import models
 
 class IncidentReport(models.Model):
     Name = models.CharField(max_length=25, null = True)
+    TeamMember = models.CharField(max_length=25, null = True)
+    
    
     Location = models.CharField(max_length=300, null = True)
     ReportDate = models.DateTimeField(auto_now_add=True)
@@ -13,6 +15,7 @@ class IncidentReport(models.Model):
     PatientName = models.CharField(max_length=30, default = '')
     PatientMRN = models.CharField(max_length=30, default = '')
     IncidentType = models.CharField(max_length=30, default = '')
+    StageOfCatch = models.CharField(max_length=35, null = True)
     IncidentDescription  =  models.CharField(max_length=300, default = 'wrong patient')
 
     def __str__(self):
