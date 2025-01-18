@@ -34,11 +34,14 @@
                     <h5 class="card-title">Incident Details</h5>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><strong>Incident ID:</strong> {{report.id}}</li>
+                        <li class="list-group-item"><strong>Reporter Name:</strong> {{ report.Name }}</li>
+                        <li class="list-group-item"><strong>Team Member:</strong> {{ report.TeamMember }}</li>
                         <li class="list-group-item"><strong>Incident Date:</strong> {{ report.IncidentDate|date:'Y-m-d' }}</li>
                         <li class="list-group-item"><strong>Report Date:</strong> {{ report.ReportDate|date:'Y-m-d' }}</li>
                        
                         <li class="list-group-item"><strong>Location:</strong> {{ report.Location }}</li>
                         <li class="list-group-item"><strong>Incident Type:</strong> {{ report.IncidentType }}</li>
+                        <li class="list-group-item"><strong>Stage of Catch:</strong> {{ report.StageOfCatch }}</li>
                     </ul>
                 </div>
             </div>

@@ -16,7 +16,7 @@ class IncidentReport(models.Model):
     PatientMRN = models.CharField(max_length=30, default = '')
     IncidentType = models.CharField(max_length=30, default = '')
     StageOfCatch = models.CharField(max_length=35, null = True)
-    IncidentDescription  =  models.CharField(max_length=300, default = 'wrong patient')
+    IncidentDescription  =  models.CharField(max_length=300)
 
     def __str__(self):
         return self.IncidentReport
