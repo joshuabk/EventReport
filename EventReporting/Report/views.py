@@ -110,6 +110,7 @@ def editReport(request, report_id):
     else:
         
         report = IncidentReport.objects.get(pk = report_id)
+        print(report.Name)
         return render(request, 'editReport.html', {'report':report})
 
 
@@ -172,14 +173,16 @@ def createPDF(incident):
         c.drawString(50, 720, f"Report Date: {incident.ReportDate.strftime('%Y-%m-%d %H:%M')}")
         c.drawString(50, 700, f"Incident Date: {incident.IncidentDate.strftime('%Y-%m-%d %H:%M')}")
         c.drawString(50, 680, f"Reporter: {incident.Name}")
-        c.drawString(50, 660, f"Location: {incident.Location}")
-        c.drawString(50, 640, f"Patient Initials: {incident.PatientName}")
-        c.drawString(50, 620, f"Patient MRN: {incident.PatientMRN}")
-        c.drawString(50, 600, f"Type: {incident.IncidentType}")
-        c.drawString(50, 565, f"Description:" )
+        c.drawString(50, 660, f"Team Member: {incident.TeamMember}")
+        c.drawString(50, 640, f"Location: {incident.Location}")
+        c.drawString(50, 620, f"Patient Initials: {incident.PatientName}")
+        c.drawString(50, 600, f"Patient MRN: {incident.PatientMRN}")
+        c.drawString(50, 580, f"Type: {incident.IncidentType}")
+        c.drawString(50, 560, f"Stage Caught: {incident.StageOfCatch}")
+        c.drawString(50, 525, f"Description:" )
         
         c.setFont("Helvetica", 12)
-        y_pos = 545
+        y_pos = 505
         lines =  textwrap.wrap(incident.IncidentDescription, width=95)
         for line in lines:
             c.drawString(50, y_pos, line)

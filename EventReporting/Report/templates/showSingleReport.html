@@ -33,15 +33,55 @@
                     <!-- Incident Details -->
                     <h5 class="card-title">Incident Details</h5>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Incident ID:</strong> {{report.id}}</li>
-                        <li class="list-group-item"><strong>Reporter Name:</strong> {{ report.Name }}</li>
-                        <li class="list-group-item"><strong>Team Member:</strong> {{ report.TeamMember }}</li>
-                        <li class="list-group-item"><strong>Incident Date:</strong> {{ report.IncidentDate|date:'Y-m-d' }}</li>
-                        <li class="list-group-item"><strong>Report Date:</strong> {{ report.ReportDate|date:'Y-m-d' }}</li>
-                       
-                        <li class="list-group-item"><strong>Location:</strong> {{ report.Location }}</li>
-                        <li class="list-group-item"><strong>Incident Type:</strong> {{ report.IncidentType }}</li>
-                        <li class="list-group-item"><strong>Stage of Catch:</strong> {{ report.StageOfCatch }}</li>
+                        <!-- Use Bootstrap grid for label and value alignment -->
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-4"><strong>Incident ID:</strong></div>
+                                <div class="col-md-8">{{ report.id }}</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-4"><strong>Reporter Name:</strong></div>
+                                <div class="col-md-8">{{ report.Name }}</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-4"><strong>Team Member:</strong></div>
+                                <div class="col-md-8">{{ report.TeamMember }}</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-4"><strong>Incident Date:</strong></div>
+                                <div class="col-md-8">{{ report.IncidentDate|date:'Y-m-d' }}</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-4"><strong>Report Date:</strong></div>
+                                <div class="col-md-8">{{ report.ReportDate|date:'Y-m-d' }}</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-4"><strong>Location:</strong></div>
+                                <div class="col-md-8">{{ report.Location }}</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-4"><strong>Incident Type:</strong></div>
+                                <div class="col-md-8">{{ report.IncidentType }}</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-4"><strong>Stage of Catch:</strong></div>
+                                <div class="col-md-8">{{ report.StageOfCatch }}</div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -51,30 +91,42 @@
                 <div class="card-body">
                     <h5 class="card-title">Patient Information</h5>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Initials:</strong> {{ report.PatientName }}</li>
-                        <li class="list-group-item"><strong>MRN:</strong> {{ report.PatientMRN}}</li>
-                       
-                       
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-4"><strong>Initials:</strong></div>
+                                <div class="col-md-8">{{ report.PatientName }}</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-4"><strong>MRN:</strong></div>
+                                <div class="col-md-8">{{ report.PatientMRN }}</div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
-
+            
             <!-- Description of Incident -->
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Description of Incident</h5>
-                    <p>{{ report.IncidentDescription }}</p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>{{ report.IncidentDescription }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-
             
-
             <!-- Reported By -->
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Reported By</h5>
-                    <p><strong>Name:</strong> {{ report.Name }}</br>
-                   
+                    <div class="row">
+                        <div class="col-md-4"><strong>Name:</strong></div>
+                        <div class="col-md-8">{{ report.Name }}</div>
+                    </div>
                 </div>
             </div>
 

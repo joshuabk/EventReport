@@ -110,8 +110,8 @@ EMAIL_HOST='smtp.gmail.com'
 EMAIL_PORT=465
 EMAIL_HOST_USER = 'northsideemr@gmail.com'
 
-EMAIL_HOST_PASSWORD = 'eououjkkxaallvnu'
-EMAIL_HOST_PASSWORD = 'EMRTrack'
+EMAIL_HOST_PASSWORD = 'wlkblvzmafvxftkq'
+#EMAIL_HOST_PASSWORD = 'NorthsideEMR2001!'
 
 DEFAULT_EMAIL_FROM = 'northsideemr@gmail.com'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

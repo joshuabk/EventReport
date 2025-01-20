@@ -13,15 +13,15 @@
     <table>
   
 
-    <tr><td>Reporter Name: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Reporter Name"  name = 'Name' value = {{report.Name}}></td></tr>
+    <tr><td>Reporter Name: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Reporter Name"  name = 'Name' value = '{{report.Name}}'></td></tr>
 
     <td>TeamMember: </td><td> <select name ='TeamMember' class="form-control">
         <option value="Therapist" {% if report.TeamMember == "Therapist" %}selected{% endif %}>Therapist</option> 
         <option value="Dosimetrist" {% if report.TeamMember == "Dosimetrist" %}selected{% endif %}>Dosimetrist</option> 
         <option value="Physicst" {% if report.TeamMember == "Physicst" %}selected{% endif %}>Physicst</option>  
-        <option value="Nurse" {% if report.TeamMember == "Nurse" %}selected{% endif %}>"Nurse"</option> 
-        <option value="Radiation Oncologist" {% if report.TeamMember == "Radiation Oncologist" %}selected{% endif %}>"Radiation Oncologist"</option>
-        <option value="Administrator" {% if report.TeamMember == "Administrator" %}selected{% endif %}>"Administrator"</option></select></td></tr>
+        <option value="Nurse" {% if report.TeamMember == "Nurse" %}selected{% endif %}>Nurse</option> 
+        <option value="Radiation Oncologist" {% if report.TeamMember == "Radiation Oncologist" %}selected{% endif %}>Radiation Oncologist</option>
+        <option value="Administrator" {% if report.TeamMember == "Administrator" %}selected{% endif %}>Administrator</option></select></td></tr>
     
     <tr><td>Location: </td><td><select class="form-control"  name = 'Location'><option value="Atlanta" {% if report.Location == "Atlanta" %}selected{% endif %}>Atlanta</option>
         <option value="Cherokee" {% if report.Location == "Cherokee" %}selected{% endif %}>Cherokee</option>
@@ -41,9 +41,9 @@
 
     <tr><td>Incident Date</td><td> <input type="date" class="form-control" id="daInput" name="IncidentDate" value = {{report.IncidentDate|date:'Y-m-d'}}></td></tr>
 
-    <tr><td>Patient Initials: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Patient Initials"  name = 'PatientName' value = {{report.PatientName}}></td></tr>
+    <tr><td>Patient Initials: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Patient Initials"  name = 'PatientName' value = '{{report.PatientName}}'></td></tr>
     
-    <tr><td>Patient MRN: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Patient MRN"  name = 'PatientMRN' value = {{report.PatientMRN}}></td></tr>
+    <tr><td>Patient MRN: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Patient MRN"  name = 'PatientMRN' value = '{{report.PatientMRN}}'></td></tr>
     
     
   
@@ -53,7 +53,7 @@
        <option value="Process Improvement" {% if report.IncidentType == "Process Improvement" %}selected{% endif %}>Process Imporvement</option>  
        <option value="Treatment Deviation" {% if report.IncidentType == "Treatment Deviation" %}selected{% endif %}>Treatment Deviation</option> </select></td></tr>
    
-    <td>Stage Of Catch: </td><td> <select name ='StageOfCatch' class="form-control">
+    <td>Stage Caught: </td><td> <select name ='StageOfCatch' class="form-control">
         <option value="Simulation" {% if report.StageOfCatch == "Simulation" %}selected{% endif %}>Simulation</option> 
         <option value="Planning" {% if report.StageOfCatch == "Planning" %}selected{% endif %}>Planning</option> 
         <option value="Plan Review" {% if report.StageOfCatch == "Plan Review" %}selected{% endif %}>Plan Review</option>  
@@ -73,7 +73,14 @@
 </table><br>
 
 </div>
-<button class="btn btn-outline-success btn-sm my-2 my-sm-0 ml-5 mr-5" type="submit">Save</button>
+ <div class="text-center">
+    <button 
+        class="btn btn-outline-success btn-sm mb-3" 
+        style="padding: 0.5rem 1rem; font-size: 0.875rem; width: 120px;" 
+        type="submit">
+        Save
+    </button>
+  </div>
 </div>
 
    
