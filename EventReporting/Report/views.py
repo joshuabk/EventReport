@@ -27,6 +27,35 @@ from django.core.mail.backends.smtp import EmailBackend
 
 
 
+
+def selectCoordinatorEmail(incident):
+    email = ""
+    location = incident.Location
+    if location == "Atlanta":
+        email = "Stephanie.Draper@northside.com"
+    elif location == "Cherokee":
+        email = "Michelle.Orlando@northside.com"
+    elif location == "Alpharetta":
+        email = "Linda.Hilton@northside.com"
+    elif location == "Forsyth":
+        email = "Tiffany.Armour@northside.com"
+    elif location == "Duluth Hwy" or location == "Phillip Blvd":
+        email = "Gary.Thomas@northside.com"
+    elif location == "Gwinnett":
+        email = ""
+    elif location == "Preston Ridge":
+        email = "Faith.Dupree@northside.com"
+    elif location == "Midtown":
+        email = "Amanda.Dell'aquila@northside.com"
+    elif location == "Macon":
+        email = "MRUGESH.PATEL@northside.com"
+    elif location == "Lake Oconee":
+        email = "Jennifer.Parish@northside.com"
+    elif location == "Hawkinsville":
+        email = ""
+    elif location == "South Atlanta":
+        email = "Eva.Turner@northside.com"
+
 def addReport(request):
     
     if request.method == "POST":
@@ -46,6 +75,9 @@ def addReport(request):
            
             body = 'A new incident report has been submitted \n\n Here is the link to the Incident reports page http://167.183.14.241:2002/'  
             
+
+            selectCoordinatorEmail(incident)
+
             print(body)
             email = EmailMessage(
                   'New Incident Report',
