@@ -72,7 +72,8 @@ def addReport(request):
                 connection.open()
                 print("connection is open")
              
-           
+            pdf_content = createPDF(incident)
+
             body = 'A new incident report has been submitted \n\n Here is the link to the Incident reports page http://167.183.14.241:2002/'  
             
 
@@ -85,7 +86,7 @@ def addReport(request):
                     settings.EMAIL_HOST_USER,
                    ['joshua.kessler@northside.com'])#, 'Chante.Frazier@northside.com','Sarah.Castillo@northside.com'])
             
-
+            email.attach(f"Incident_{incident.id}.pdf", pdf_content, 'application/pdf')
             email.send()
             print('mail sent')
             
@@ -179,16 +180,17 @@ def createPDF(incident):
      
         # Define the directory where PDFs will be saved
 
-        pdf_directory = 'C:\PDF' #'P:\\Outpatient Oncology\\17-INCIDENT LEARNING REPORT'
+        #pdf_directory = 'C:\PDF' #'P:\\Outpatient Oncology\\17-INCIDENT LEARNING REPORT'
 
 
         #pdf_directory =  'P:\\Outpatient Oncology\\17-INCIDENT LEARNING REPORT'
 
-        if not os.path.exists(pdf_directory):
-            os.makedirs(pdf_directory)  # Create the directory if it doesn't exist
-
+        #if not os.path.exists(pdf_directory):
+           # os.makedirs(pdf_directory)  # Create the directory if it doesn't exist
+        buffer = BytesIO()
         # Create a file path for the PDF
-        pdf_file_path = os.path.join(pdf_directory, f"incident_{incident.id}.pdf")
+        pdf_file_path = os.path.join(buffer)
+        
 
         # Create the PDF
         c = canvas.Canvas(pdf_file_path, pagesize=letter)
@@ -221,3 +223,9 @@ def createPDF(incident):
         
         # Save the PDF
         c.save()
+
+        pdf_data = buffer.getvalue()
+        buffer.value()
+
+        return pdf_data
+
