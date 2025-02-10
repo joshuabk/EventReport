@@ -76,7 +76,7 @@ def addReport(request):
 
             Cemail = selectCoordinatorEmail(incident)
 
-            body = 'A new incident report has been submitted \n\n Here is the link to the Incident reports page http://167.183.14.241:2002/ '  + Cemail
+            body = 'A new incident report has been submitted \n\n Here is the link to the Incident reports page http://167.183.14.241:2002/'
             
 
             print(body)
@@ -84,7 +84,7 @@ def addReport(request):
                   'New Incident Report',
                    body,
                     settings.EMAIL_HOST_USER,
-                   ['jbarlowk@gmail.com'])#, 'Chante.Frazier@northside.com','Sarah.Castillo@northside.com', Cemail])
+                   ['jbarlowk@gmail.com', 'Chante.Frazier@northside.com','Sarah.Castillo@northside.com', Cemail])
             
             email.attach(f"Incident_{incident.id}.pdf", pdf_content, 'application/pdf')
             email.send()
