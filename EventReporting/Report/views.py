@@ -39,10 +39,9 @@ def selectCoordinatorEmail(incident):
         email = "Linda.Hilton@northside.com"
     elif location == "Forsyth":
         email = "Tiffany.Armour@northside.com"
-    elif location == "Duluth Hwy" or location == "Phillip Blvd":
+    elif location == "Duluth Hwy" or location == "Phillip Blvd" or location == "Gwinnett":
         email = "Gary.Thomas@northside.com"
-    elif location == "Gwinnett":
-        email = ""
+   
     elif location == "Preston Ridge":
         email = "Faith.Dupree@northside.com"
     elif location == "Midtown":
@@ -51,9 +50,8 @@ def selectCoordinatorEmail(incident):
         email = "MRUGESH.PATEL@northside.com"
     elif location == "Lake Oconee":
         email = "Jennifer.Parish@northside.com"
-    elif location == "Hawkinsville":
-        email = ""
-    elif location == "South Atlanta":
+
+    elif location == "South Atlanta" or location == "Hawkinsville":
         email = "Eva.Turner@northside.com"
 
 def addReport(request):
@@ -84,7 +82,7 @@ def addReport(request):
                   'New Incident Report',
                    body,
                     settings.EMAIL_HOST_USER,
-                   ['joshua.kessler@northside.com'])#, 'Chante.Frazier@northside.com','Sarah.Castillo@northside.com'])
+                   ['jbarlowk@gmail.com'])#, 'Chante.Frazier@northside.com','Sarah.Castillo@northside.com'])
             
             email.attach(f"Incident_{incident.id}.pdf", pdf_content, 'application/pdf')
             email.send()

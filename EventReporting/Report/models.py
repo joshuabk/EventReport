@@ -8,7 +8,7 @@ class IncidentReport(models.Model):
     TeamMember = models.CharField(max_length=25, null = True)
     
    
-    Location = models.CharField(max_length=300, null = True)
+    Location = models.CharField(max_length=300, null = False)
     ReportDate = models.DateTimeField(auto_now_add=True)
     
     IncidentDate = models.DateTimeField(auto_now_add=False)
