@@ -29,8 +29,9 @@ from django.core.mail.backends.smtp import EmailBackend
 
 
 def selectCoordinatorEmail(incident):
-    email = ""
+    email = " "
     location = incident.Location
+    print(location)
     if location == "Atlanta":
         email = "Stephanie.Draper@northside.com"
     elif location == "Cherokee":
@@ -53,6 +54,7 @@ def selectCoordinatorEmail(incident):
 
     elif location == "South Atlanta" or location == "Hawkinsville":
         email = "Eva.Turner@northside.com"
+    return email
 
 def addReport(request):
     
@@ -72,17 +74,17 @@ def addReport(request):
              
             pdf_content = createPDF(incident)
 
-            body = 'A new incident report has been submitted \n\n Here is the link to the Incident reports page http://167.183.14.241:2002/'  
-            
+            Cemail = selectCoordinatorEmail(incident)
 
-            selectCoordinatorEmail(incident)
+            body = 'A new incident report has been submitted \n\n Here is the link to the Incident reports page http://167.183.14.241:2002/ '  + Cemail
+            
 
             print(body)
             email = EmailMessage(
                   'New Incident Report',
                    body,
                     settings.EMAIL_HOST_USER,
-                   ['jbarlowk@gmail.com'])#, 'Chante.Frazier@northside.com','Sarah.Castillo@northside.com'])
+                   ['jbarlowk@gmail.com'])#, 'Chante.Frazier@northside.com','Sarah.Castillo@northside.com', Cemail])
             
             email.attach(f"Incident_{incident.id}.pdf", pdf_content, 'application/pdf')
             email.send()
@@ -187,11 +189,11 @@ def createPDF(incident):
            # os.makedirs(pdf_directory)  # Create the directory if it doesn't exist
         buffer = BytesIO()
         # Create a file path for the PDF
-        pdf_file_path = os.path.join(buffer)
+        #pdf_file_path = os.path.join(buffer)
         
 
         # Create the PDF
-        c = canvas.Canvas(pdf_file_path, pagesize=letter)
+        c = canvas.Canvas(buffer, pagesize=letter)
         
         # Register a custom font if desired
         #pdfmetrics.registerFont(TTFont('Roboto', 'path/to/Roboto-Regular.ttf'))
@@ -223,7 +225,7 @@ def createPDF(incident):
         c.save()
 
         pdf_data = buffer.getvalue()
-        buffer.value()
+        buffer.close()
 
         return pdf_data
 
