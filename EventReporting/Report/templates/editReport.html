@@ -51,7 +51,8 @@
        <option value="Near Miss" {% if report.IncidentType == "Near Miss" %}selected{% endif %}>Near Miss</option> 
        <option value="Unsafe Condition" {% if report.IncidentType == "Unsafe Condition" %}selected{% endif %}>Unsafe Condition</option> 
        <option value="Process Improvement" {% if report.IncidentType == "Process Improvement" %}selected{% endif %}>Process Imporvement</option>  
-       <option value="Treatment Deviation" {% if report.IncidentType == "Treatment Deviation" %}selected{% endif %}>Treatment Deviation</option> </select></td></tr>
+       <option value="Therapuetic radiation incident" {% if report.IncidentType == "Therapuetic radiation incident" %}selected{% endif %}>Therapuetic radiation incident</option> 
+       <option value="Other safety incident" {% if report.IncidentType == "Other safety incident" %}selected{% endif %}>Other safety incident</option></select></td></tr>
    
     <td>Stage Caught: </td><td> <select name ='StageOfCatch' class="form-control">
         <option value="Simulation" {% if report.StageOfCatch == "Simulation" %}selected{% endif %}>Simulation</option> 
@@ -64,7 +65,7 @@
     
 
        <tr><td>Incident Description: </td><td><textarea rows="3" cols="40" name = "IncidentDescription">{{report.IncidentDescription}}</textarea></td></tr>
-    
+       Other safety incident
 
 
       
