@@ -46,11 +46,11 @@ def selectCoordinatorEmail(incident):
     elif location == "Preston Ridge":
         email = "Faith.Dupree@northside.com"
     elif location == "Midtown":
-        email = "Amanda.Dell'aquila@northside.com"
+        email = "Keith.Turner@northside.com"
     elif location == "Macon":
         email = "MRUGESH.PATEL@northside.com"
     elif location == "Lake Oconee":
-        email = "Jennifer.Parish@northside.com"
+        email = "Ashley.Davis2@northside.com"
 
     elif location == "South Atlanta" or location == "Hawkinsville":
         email = "Eva.Turner@northside.com"

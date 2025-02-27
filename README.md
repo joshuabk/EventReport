@@ -1,1 +1,1 @@
-# EventReport
+# IncidentReport
