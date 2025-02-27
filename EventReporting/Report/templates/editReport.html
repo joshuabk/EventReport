@@ -39,7 +39,7 @@
          
     <tr><td>Report Date</td><td> <input type="date" class="form-control" id="reportDate" name="ReportDate" value = {{report.ReportDate|date:'Y-m-d'}}></td></tr>
 
-    <tr><td>Incident Date</td><td> <input type="date" class="form-control" id="daInput" name="IncidentDate" value = {{report.IncidentDate|date:'Y-m-d'}}></td></tr>
+    <tr><td>Event Date</td><td> <input type="date" class="form-control" id="daInput" name="IncidentDate" value = {{report.IncidentDate|date:'Y-m-d'}}></td></tr>
 
     <tr><td>Patient Initials: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Patient Initials"  name = 'PatientName' value = '{{report.PatientName}}'></td></tr>
     
@@ -47,7 +47,7 @@
     
     
   
-    <td>Incident Type: </td><td><select name ='IncidentType' class="form-control">
+    <td>Event Type: </td><td><select name ='IncidentType' class="form-control">
        <option value="Near Miss" {% if report.IncidentType == "Near Miss" %}selected{% endif %}>Near Miss</option> 
        <option value="Unsafe Condition" {% if report.IncidentType == "Unsafe Condition" %}selected{% endif %}>Unsafe Condition</option> 
        <option value="Process Improvement" {% if report.IncidentType == "Process Improvement" %}selected{% endif %}>Process Imporvement</option>  
@@ -64,7 +64,7 @@
         <option value="Post Treatment" {% if report.StageOfCatch == "Post Treatment" %}selected{% endif %}>Post Treatment</option></select></td></tr> 
     
 
-       <tr><td>Incident Description: </td><td><textarea rows="3" cols="40" name = "IncidentDescription">{{report.IncidentDescription}}</textarea></td></tr>
+       <tr><td>Event Description: </td><td><textarea rows="3" cols="40" name = "IncidentDescription">{{report.IncidentDescription}}</textarea></td></tr>
        Other safety incident
 
 

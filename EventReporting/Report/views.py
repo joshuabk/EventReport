@@ -81,7 +81,7 @@ def addReport(request):
 
             print(body)
             email = EmailMessage(
-                  'New Incident Report',
+                  'New Event Report',
                    body,
                     settings.EMAIL_HOST_USER,
                    ['Chante.Frazier@northside.com','Sarah.Castillo@northside.com', Cemail])
@@ -204,7 +204,7 @@ def createPDF(incident):
         
         c.setFont("Helvetica", 12)
         c.drawString(50, 720, f"Report Date: {incident.ReportDate.strftime('%Y-%m-%d %H:%M')}")
-        c.drawString(50, 700, f"Incident Date: {incident.IncidentDate.strftime('%Y-%m-%d %H:%M')}")
+        c.drawString(50, 700, f"Event Date: {incident.IncidentDate.strftime('%Y-%m-%d %H:%M')}")
         c.drawString(50, 680, f"Reporter: {incident.Name}")
         c.drawString(50, 660, f"Team Member: {incident.TeamMember}")
         c.drawString(50, 640, f"Location: {incident.Location}")
