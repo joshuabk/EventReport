@@ -84,7 +84,7 @@ def addReport(request):
                   'New Incident Report',
                    body,
                     settings.EMAIL_HOST_USER,
-                   ['jbarlowk@gmail.com', 'Chante.Frazier@northside.com','Sarah.Castillo@northside.com', Cemail])
+                   ['Chante.Frazier@northside.com','Sarah.Castillo@northside.com', Cemail])
             
             email.attach(f"Incident_{incident.id}.pdf", pdf_content, 'application/pdf')
             email.send()
