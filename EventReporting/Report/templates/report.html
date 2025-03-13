@@ -32,9 +32,33 @@
     
     <tr><td>Patient MRN: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Patient MRN"  name = 'PatientMRN'></td></tr>
     
-    <tr><td>Event Type: </td><td> <select name ='IncidentType' class="form-control">
-        <option value="" disabled selected>select</option><option value="Near Miss">Near Miss</option> <option value="Unsafe Condition">Unsafe Condition</option> <option value="Process Improvement">Process Improvement</option>  <option value="Therapuetic radiation incident">Therapuetic radiation incident</option> <option value="Other safety incident">Other safety incident</option></select></td></tr>
-
+    <tr><td>Event Type: </td><td> <select name ='IncidentType'  class="form-control">
+        <option value="" disabled selected>select</option>
+        <option value="Near Miss" title="An event that relates to a specific patient, but did not reach or affect the patient. Example: The absence of kidney blocking on a spine field caught by the pretreatment imaging and corrected before treatment delivery.">Near Miss</option> 
+        <option value="Unsafe Condition" title = "A condition that increases the probability of a safety event. Not related to a specific patient. Example: The absence of a policy related to allowed IGRT alignment tolerances for SBRT resulting in confusion and uncertainty among staff.">Unsafe Condition</option> 
+        <option value="Process Improvement" title = "An event that is not directly related to safety but contributes to inefficiency or confusion. Example: Physician not alerted that the patient is ready to be seen, resulting in delay for the patient and those that follow.">Process Improvement</option>  
+        <option value="Therapuetic radiation incident" title = "An event involving the delivery of some part of a therapeutic dose. Dose delivered not as intended. With or without harm. Example: improper targeting of a lung lesion results in the delivery of the dose to a benign nodule; overdose due to error in machine commissioning, one fraction of a 2B fraction course delivered at the wrong SSD resulting in a 2 Gy discrepancy between planned and delivered doses.">Therapuetic radiation incident</option> 
+        <option value="Other safety incident" title = "An event that directly affects a patient but not involving therapeutic radiation dose. With or without harm. Example: Fall, gantry collision with patient.">Other safety incident</option></select>
+        <span id="helpIcon" class="fa fa-question-circle"></span>
+    </td>
+    </tr>
+    <div id="helpPopup" class="help-popup">
+        <div class="help-content">
+          <span class="close-btn">&times;</span>
+          <h3>Event Type Descriptions</h3>
+          <ul>
+            <li><strong>Near Miss:</strong> An event that relates to a specific patient, but did not reach or affect the patient. <br> Example: The absence of kidney blocking on a spine field caught by pretreatment imaging and corrected before treatment delivery.</li>
+            <li><strong>Unsafe Condition:</strong> A condition that increases the probability of a safety event. Not related to a specific patient. <br> Example: The absence of a policy related to allowed IGRT alignment tolerances for SBRT resulting in confusion and uncertainty among staff.</li>
+            <li><strong>Process Improvement:</strong> An event that is not directly related to safety but contributes to inefficiency or confusion. <br> Example: Physician not alerted that the patient is ready to be seen, resulting in delay for the patient and those that follow.</li>
+            <li><strong>Therapeutic radiation incident:</strong>This category involves the delivery of some part of a therapeutic dose. Dose delivered not as intended. With or without harm. <br> Examples: Improper targeting of a lung tumor results in delivery of dose to a benign nodule. Overdose due to error in machine commissioning. One fraction of a 25-fraction course delivered at the wrong SSD resulting in a 2 Gy discrepancy between planned and delivered doses.</li>
+            <li><strong>Other safety incident:</strong> An event that directly affects a patient but not involving therapeutic radiation dose. With or without harm. <br> Examples: Fall, Gantry collision with patient.</li>
+          </ul>
+        </div>
+      </div>
+        
+  
+    
+    
     <tr><td>Stage Caught: </td><td> <select name ='StageOfCatch' class="form-control">
         <option value="" disabled selected>select</option><option value="Simulation">Simulation</option> <option value="Planning">Planning</option> <option value="Plan Review">Plan Review</option> <option value="Initial Check">Initial Check</option><option value="Treatment">Treatment</option><option value="Treatment Review">Treatment Review</option><option value="Post Treatment">Post Treatment</option></select></td></tr>
 
@@ -50,24 +74,109 @@
 </div>
 
 <script>
-    // Get today's date in the format YYYY-MM-DD
-    const today = DateTime.now().setZone('America/New_York');
-    alert(today)
-    alert(`Current date in New York: ${today.toFormat('yyyy-MM-dd')}`);
-    // Set the value of the date input to today's date
-    document.getElementById('reportDate').value = today;
-  </script>
+ document.addEventListener("DOMContentLoaded", function () {
+  const helpIcon = document.getElementById("helpIcon");
+  const helpPopup = document.getElementById("helpPopup");
+  const closeBtn = document.querySelector(".close-btn");
 
-   
-    
+  // Show the help popup when clicking the help icon
+  helpIcon.addEventListener("click", function () {
+    helpPopup.style.display = "block";
+  });
+
+  // Hide the popup when clicking the close button
+  closeBtn.addEventListener("click", function () {
+    helpPopup.style.display = "none";
+  });
+
+  // Hide the popup when clicking outside of it
+  window.addEventListener("click", function (event) {
+    if (event.target === helpPopup) {
+      helpPopup.style.display = "none";
+    }
+  });
+});
+</script>
+
+ 
+
 </form>
 
 <style>
         #mainCard{
             margin-bottom: 150px
         }
+
+        .help-icon {
+  font-size: 18px;
+  cursor: pointer;
+  color: #007bff;
+  margin-left: 10px;
+}
+
+.help-icon:hover {
+  color: #0056b3;
+}
+
+/* Popup styling */
+.help-popup {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  width: 600px;
+  max-width: 90%;
+  z-index: 1000;
+}
+
+.help-content {
+  text-align: left;
+}
+
+.help-content h3 {
+  margin-top: 0;
+}
+
+.help-content ul {
+  padding-left: 20px;
+}
+
+.help-content li {
+  margin-bottom: 10px;
+}
+
+/* Close button */
+.close-btn {
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: red;
+}
+
+/* Background overlay */
+.help-popup::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: -1;
+}
+}
     
-    </style>
+</style>
+
 
 
 {%endblock%}

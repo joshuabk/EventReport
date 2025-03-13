@@ -84,13 +84,13 @@ def addReport(request):
                   'New Event Report',
                    body,
                     settings.EMAIL_HOST_USER,
-                   ['Chante.Frazier@northside.com','Sarah.Castillo@northside.com', Cemail])
+                   ['jbarlowk@gmail.com'])#['Chante.Frazier@northside.com','Sarah.Castillo@northside.com', Cemail])
             
             email.attach(f"Incident_{incident.id}.pdf", pdf_content, 'application/pdf')
             email.send()
             print('mail sent')
             
-            createPDF(incident)
+            incident.delete()
             return render(request, 'reportSuccess.html', {})
         else:
             messages.error(request, "Error")
@@ -129,7 +129,6 @@ def editReport(request, report_id):
             temReq = form.save()
 
             requests = list(IncidentReport.objects.all())
-            
             
             return redirect('showReports')
         else:
@@ -191,7 +190,6 @@ def createPDF(incident):
         # Create a file path for the PDF
         #pdf_file_path = os.path.join(buffer)
         
-
         # Create the PDF
         c = canvas.Canvas(buffer, pagesize=letter)
         
