@@ -113,7 +113,8 @@ EMAIL_HOST_USER = 'northsideemr@gmail.com'
 EMAIL_HOST_PASSWORD = 'wlkblvzmafvxftkq'
 #EMAIL_HOST_PASSWORD = 'NorthsideEMR2001!'
 
-DEFAULT_EMAIL_FROM = 'northsideemr@gmail.com'
+EMAIL_TIMEOUT = 60
+#DEFAULT_EMAIL_FROM = 'northsideemr@gmail.com'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 LANGUAGE_CODE = "en-us"

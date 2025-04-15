@@ -72,11 +72,11 @@ def addReport(request):
                 connection.open()
                 print("connection is open")
              
-            pdf_content = createPDF(incident)
+            
 
             Cemail = selectCoordinatorEmail(incident)
 
-            body = 'A new incident report has been submitted \n\n Here is the link to the Incident reports page http://167.183.14.241:2002/'
+            body = 'A new incident report has been submitted for '+ incident.Location 
             
 
             print(body)
@@ -86,9 +86,11 @@ def addReport(request):
                     settings.EMAIL_HOST_USER,
                    ['Chante.Frazier@northside.com','Sarah.Castillo@northside.com', Cemail])
             
-            email.attach(f"Incident_{incident.id}.pdf", pdf_content, 'application/pdf')
+            #email.attach(f"Incident_{incident.id}.pdf", pdf_content, 'application/pdf')
             email.send()
             print('mail sent')
+            createPDF(incident)
+            
             
             incident.delete()
             return render(request, 'reportSuccess.html', {})
@@ -179,19 +181,19 @@ def createPDF(incident):
      
         # Define the directory where PDFs will be saved
 
-        #pdf_directory = 'C:\PDF' #'P:\\Outpatient Oncology\\17-INCIDENT LEARNING REPORT'
+        #pdf_directory = 'C:\PDF' #'P:\\Outpatient Oncology\\DOSIMETRY-PHYSICS\\SJC\\reports'
 
 
-        #pdf_directory =  'P:\\Outpatient Oncology\\17-INCIDENT LEARNING REPORT'
+        pdf_directory =  'P:\\Outpatient Oncology\\DOSIMETRY - PHYSICS\\SJC\\reports'
 
         #if not os.path.exists(pdf_directory):
            # os.makedirs(pdf_directory)  # Create the directory if it doesn't exist
-        buffer = BytesIO()
+        #buffer = BytesIO()
         # Create a file path for the PDF
-        #pdf_file_path = os.path.join(buffer)
+        pdf_file_path = os.path.join(pdf_directory, f"incident_{incident.id}.pdf")
         
         # Create the PDF
-        c = canvas.Canvas(buffer, pagesize=letter)
+        c = canvas.Canvas(pdf_file_path, pagesize=letter)
         
         # Register a custom font if desired
         #pdfmetrics.registerFont(TTFont('Roboto', 'path/to/Roboto-Regular.ttf'))
@@ -201,8 +203,8 @@ def createPDF(incident):
         c.drawString(220, 750, f"Incident Report # {incident.id}")
         
         c.setFont("Helvetica", 12)
-        c.drawString(50, 720, f"Report Date: {incident.ReportDate.strftime('%Y-%m-%d %H:%M')}")
-        c.drawString(50, 700, f"Event Date: {incident.IncidentDate.strftime('%Y-%m-%d %H:%M')}")
+        c.drawString(50, 720, f"Report Date: {incident.ReportDate.strftime('%m-%d-%Y %H:%M')}")
+        c.drawString(50, 700, f"Event Date: {incident.IncidentDate.strftime('%m-%d-%Y')}")
         c.drawString(50, 680, f"Reporter: {incident.Name}")
         c.drawString(50, 660, f"Team Member: {incident.TeamMember}")
         c.drawString(50, 640, f"Location: {incident.Location}")
@@ -222,8 +224,7 @@ def createPDF(incident):
         # Save the PDF
         c.save()
 
-        pdf_data = buffer.getvalue()
-        buffer.close()
+        
 
-        return pdf_data
+        
 
