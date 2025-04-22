@@ -76,7 +76,7 @@ def addReport(request):
 
             Cemail = selectCoordinatorEmail(incident)
 
-            body = 'A new incident report has been submitted for '+ incident.Location 
+            body = 'A new event report has been submitted for '+ incident.Location 
             
 
             print(body)
