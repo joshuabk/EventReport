@@ -32,19 +32,20 @@ def selectCoordinatorEmail(incident):
     email = " "
     location = incident.Location
     print(location)
+    
     if location == "Atlanta":
         email = "Stephanie.Draper@northside.com"
     elif location == "Cherokee":
         email = "Michelle.Orlando@northside.com"
     elif location == "Alpharetta":
-        email = "Linda.Hilton@northside.com"
+        email = "Darlene.Ritarita@northside.com"
     elif location == "Forsyth":
         email = "Tiffany.Armour@northside.com"
     elif location == "Duluth Hwy" or location == "Phillip Blvd" or location == "Gwinnett":
         email = "Gary.Thomas@northside.com"
    
     elif location == "Preston Ridge":
-        email = "Faith.Dupree@northside.com"
+        email = "Darlene.Ritarita@northside.com"
     elif location == "Midtown":
         email = "Keith.Turner@northside.com"
     elif location == "Macon":
@@ -54,7 +55,20 @@ def selectCoordinatorEmail(incident):
 
     elif location == "Hawkinsville":
         email = "Eva.Turner@northside.com"
+    
+    elif location == "Blairsville":
+        email = "Chandra.Dockery@northside.com"
+    elif location == "Conyers":
+        email = "Chiquita.White@northside.com"
+    elif location == "Covington":
+        email = "Jane.Burgos@northside.com"
+    elif location == "Decatur":
+        email = "Amy.Cantrell2@northside.com"
+    elif location == "Snellville":
+        email = "Cynthia.Nixon@northside.com"
+
     return email
+
 
 def addReport(request):
     

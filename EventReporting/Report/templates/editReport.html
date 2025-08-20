@@ -36,6 +36,11 @@
         <option value="Lake Oconee" {% if report.Location == "Lake Oconee" %}selected{% endif %}>Lake Oconee</option>
         <option value="Hawkinsville" {% if report.Location == "Hawkinsville" %}selected{% endif %}>Hawkinsville</option>
         <option value="South Atlanta" {% if report.Location == "South Atlanta" %}selected{% endif %}>South Atlanta</option></select></td></tr>
+        <option value="Blairesville" {% if report.Location == "Blairesville" %}selected{% endif %}>Blaresville</option></select></td></tr>
+        <option value="Conyers" {% if report.Location == "Conyers" %}selected{% endif %}>Conyers</option></select></td></tr>
+        <option value="Covington" {% if report.Location == "Covington" %}selected{% endif %}>Covington</option></select></td></tr>
+        <option value="Decatur" {% if report.Location == "Decatur" %}selected{% endif %}>Decatur</option></select></td></tr>
+        <option value="Snellville" {% if report.Location == "Snellville" %}selected{% endif %}>Snellville</option></select></td></tr>
          
     <tr><td>Report Date</td><td> <input type="date" class="form-control" id="reportDate" name="ReportDate" value = {{report.ReportDate|date:'Y-m-d'}}></td></tr>
 
