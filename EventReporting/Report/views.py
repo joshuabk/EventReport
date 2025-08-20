@@ -49,10 +49,10 @@ def selectCoordinatorEmail(incident):
         email = "Keith.Turner@northside.com"
     elif location == "Macon":
         email = "MRUGESH.PATEL@northside.com"
-    elif location == "Lake Oconee":
+    elif location == "South Atlanta" or location == "Lake Oconee":
         email = "Ashley.Davis2@northside.com"
 
-    elif location == "South Atlanta" or location == "Hawkinsville":
+    elif location == "Hawkinsville":
         email = "Eva.Turner@northside.com"
     return email
 
@@ -190,7 +190,7 @@ def createPDF(incident):
            # os.makedirs(pdf_directory)  # Create the directory if it doesn't exist
         #buffer = BytesIO()
         # Create a file path for the PDF
-        pdf_file_path = os.path.join(pdf_directory, f"incident_{incident.id}.pdf")
+        pdf_file_path = os.path.join(pdf_directory, f"Event_Report_{incident.id}.pdf")
         
         # Create the PDF
         c = canvas.Canvas(pdf_file_path, pagesize=letter)
@@ -200,7 +200,7 @@ def createPDF(incident):
         
         # Write content to PDF (Same as before)
         c.setFont("Helvetica", 16)
-        c.drawString(220, 750, f"Incident Report # {incident.id}")
+        c.drawString(220, 750, f"Event Report # {incident.id}")
         
         c.setFont("Helvetica", 12)
         c.drawString(50, 720, f"Report Date: {incident.ReportDate.strftime('%m-%d-%Y %H:%M')}")
