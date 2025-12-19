@@ -25,7 +25,8 @@ import textwrap
 from django.core import mail
 from django.core.mail.backends.smtp import EmailBackend
 
-
+#admin user: admin  pass:northside!
+# user: northside   pass:physics!
 
 
 def selectCoordinatorEmail(incident):
@@ -101,7 +102,7 @@ def addReport(request):
                    ['Chante.Frazier@northside.com','Sarah.Castillo@northside.com', Cemail])
             
             #email.attach(f"Incident_{incident.id}.pdf", pdf_content, 'application/pdf')
-            email.send()
+            #email.send()
             print('mail sent')
             createPDF(incident)
             
@@ -175,7 +176,6 @@ def loginUser(request):
         else:
             storage = messages.get_messages(request)
             storage.used = True
-
 
             messages.error(request, ('Incorrect login credentials'))
             return render(request, 'login.html')
