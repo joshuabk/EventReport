@@ -81,7 +81,7 @@ def addReport(request):
             messages.success(request, ('Item has been Added to the list!'))
             print('send mail')
 
-            connection = mail.get_connection()
+            '''connection = mail.get_connection()
             print(connection)
             if isinstance(connection, EmailBackend):
                 connection.open()
@@ -103,7 +103,7 @@ def addReport(request):
             
             #email.attach(f"Incident_{incident.id}.pdf", pdf_content, 'application/pdf')
             #email.send()
-            print('mail sent')
+            print('mail sent')'''
             createPDF(incident)
             
             
