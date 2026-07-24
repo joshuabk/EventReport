@@ -21,12 +21,12 @@ from reportlab.pdfbase.ttfonts import TTFont
 from io import BytesIO
 import os
 import textwrap
-
+from django.contrib.auth.models import User
 from django.core import mail
 from django.core.mail.backends.smtp import EmailBackend
 
-#admin user: admin  pass:northside!
-# user: northside   pass:physics!
+#admin user: nowthsideadmin  pass:R3port2!
+# user: northside   pass:R3port2!
 
 
 def selectCoordinatorEmail(incident):
@@ -104,10 +104,10 @@ def addReport(request):
             #email.attach(f"Incident_{incident.id}.pdf", pdf_content, 'application/pdf')
             #email.send()
             print('mail sent')'''
-            createPDF(incident)
+            #createPDF(incident)
             
             
-            incident.delete()
+            #incident.delete()
             return render(request, 'reportSuccess.html', {})
         else:
             messages.error(request, "Error")
