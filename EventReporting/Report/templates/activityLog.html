@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}Activity Log{% endblock %}
+
+{% block head %}
+<style>
+  .ns-table { margin: 0; font-size: .88rem; }
+  .ns-table thead th {
+    background: #F9FAFC; color: var(--ns-muted); font-weight: 600; font-size: .75rem;
+    text-transform: uppercase; letter-spacing: .06em; border-top: 0; border-bottom: 1px solid var(--ns-line); white-space: nowrap; padding: 10px 14px;
+  }
+  .ns-table tbody td { padding: 10px 14px; border-top: 1px solid var(--ns-line); vertical-align: top; }
+  .ns-table tbody tr:hover { background: var(--ns-sky); }
+  .mono { font-variant-numeric: tabular-nums; white-space: nowrap; color: #374151; }
+  .act { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: .72rem; font-weight: 600; white-space: nowrap; background: #F3F4F6; color: #374151; }
+  .act-REPORT_ADDED   { background: #E6F4EC; color: #1B7F4C; }
+  .act-REPORT_EDITED  { background: #E0F2FE; color: #075985; }
+  .act-REPORT_DELETED { background: #FEE2E2; color: #991B1B; }
+  .act-REPORT_VIEWED  { background: #EDE9FE; color: #5B21B6; }
+  .act-LOGIN          { background: #E6F4EC; color: #1B7F4C; }
+  .act-LOGIN_FAILED   { background: #FEF3C7; color: #92400E; }
+  .act-LOGOUT         { background: #F3F4F6; color: #374151; }
+  .toolbar .search { position: relative; }
+  .toolbar .search input { padding-left: 32px; width: 260px; }
+  .toolbar .search i { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--ns-muted); font-size: .85rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Activity Log</h1>
+    <p class="lead-text">Who did what, and when. Showing the most recent 500 entries.</p>
+  </div>
+</div>
+
+<div class="ns-card">
+  <div class="card-head">
+    <div class="toolbar"><div class="search">
+      <i class="fas fa-search"></i>
+      <input type="search" class="form-control form-control-sm" id="quickFilter" placeholder="Filter by user, action, report #…">
+    </div></div>
+  </div>
+  <div class="table-responsive">
+    <table class="table ns-table">
+      <thead><tr><th>Time</th><th>User</th><th>Action</th><th>Report</th><th>Details</th><th>IP address</th></tr></thead>
+      <tbody>
+      {% for log in logs %}
+        <tr data-row>
+          <td class="mono">{{ log.timestamp|date:"m/d/Y H:i:s" }}</td>
+          <td>{{ log.username|default:"<span class='text-muted'>anonymous</span>" }}</td>
+          <td><span class="act act-{{ log.action }}">{{ log.get_action_display }}</span></td>
+          <td class="mono">{% if log.report_id %}<a href="{% url 'showSingleReport' log.report_id %}">#{{ log.report_id }}</a>{% endif %}</td>
+          <td>{{ log.details }}</td>
+          <td class="mono text-muted">{{ log.ip_address|default:"" }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="6" class="text-center text-muted py-5">No activity recorded yet.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  (function () {
+    var input = document.getElementById('quickFilter');
+    var rows = Array.prototype.slice.call(document.querySelectorAll('tbody tr[data-row]'));
+    input.addEventListener('input', function () {
+      var q = input.value.trim().toLowerCase();
+      rows.forEach(function (r) { r.style.display = (!q || r.textContent.toLowerCase().indexOf(q) !== -1) ? '' : 'none'; });
+    });
+  })();
+</script>
+{% endblock %}

@@ -1,142 +1,82 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
+{% load report_extras %}
+{% block title %}Report #{{ report.id }}{% endblock %}
 
+{% block head %}
+<style>
+  .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px 24px; }
+  .detail-grid .item .k { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--ns-muted); font-weight: 600; margin-bottom: 3px; }
+  .detail-grid .item .v { font-size: 1rem; color: var(--ns-ink); }
+  .description { font-size: 1rem; line-height: 1.6; white-space: pre-wrap; color: #374151; margin: 0; }
+  .phi-card .card-head { background: #FFF8E6; color: #7A4F00; border-bottom-color: #F3DFA6; border-radius: 8px 8px 0 0; }
+  .badge-type { display: inline-block; padding: 4px 11px; border-radius: 999px; font-size: .78rem; font-weight: 600; }
+  .badge-nearmiss  { background: #FEF3C7; color: #92400E; }
+  .badge-unsafe    { background: #FFEDD5; color: #9A3412; }
+  .badge-process   { background: #E0F2FE; color: #075985; }
+  .badge-radiation { background: #FEE2E2; color: #991B1B; }
+  .badge-other     { background: #EDE9FE; color: #5B21B6; }
+  .badge-default   { background: #F3F4F6; color: #374151; }
+  @media print { .ns-nav, .ns-header .app-title, .page-head .btn, .ns-footer { display: none !important; } body { background: #fff; } }
+</style>
+{% endblock %}
 
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Event Report <span class="text-muted font-weight-normal">#{{ report.id }}</span></h1>
+    <p class="lead-text">Submitted {{ report.ReportDate|date:'F j, Y \a\t g:i A' }}{% if report.Name %} by {{ report.Name }}{% else %} anonymously{% endif %}</p>
+  </div>
+  <div>
+    <a href="{% url 'showReports' %}" class="btn btn-ns-outline"><i class="fas fa-arrow-left mr-2"></i>All reports</a>
+    <button type="button" class="btn btn-ns-outline" onclick="window.print()"><i class="fas fa-print mr-2"></i>Print</button>
+    <a href="{% url 'editReport' report.pk %}" class="btn btn-ns"><i class="fas fa-pen mr-2"></i>Edit</a>
+  </div>
+</div>
 
-{% block content%}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Incident Report</title>
-   
-    <style>
-        body {
-            padding-top: 3.5rem;
-        }
-    </style>
-</head>
-<body>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Incident Report {{report.id}}</a>
-    </div>
-</nav>
-
-<main class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h1 class="my-4">Event Report</h1>
-            <div class="card mb-4">
-                <div class="card-body">
-                    <!-- Incident Details -->
-                    <h5 class="card-title">Event Details</h5>
-                    <ul class="list-group list-group-flush">
-                        <!-- Use Bootstrap grid for label and value alignment -->
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-4"><strong>Event ID:</strong></div>
-                                <div class="col-md-8">{{ report.id }}</div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-4"><strong>Reporter Name:</strong></div>
-                                <div class="col-md-8">{{ report.Name }}</div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-4"><strong>Team Member:</strong></div>
-                                <div class="col-md-8">{{ report.TeamMember }}</div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-4"><strong>Event Date:</strong></div>
-                                <div class="col-md-8">{{ report.IncidentDate|date:'Y-m-d' }}</div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-4"><strong>Report Date:</strong></div>
-                                <div class="col-md-8">{{ report.ReportDate|date:'Y-m-d' }}</div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-4"><strong>Location:</strong></div>
-                                <div class="col-md-8">{{ report.Location }}</div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-4"><strong>Event Type:</strong></div>
-                                <div class="col-md-8">{{ report.IncidentType }}</div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-4"><strong>Stage of Catch:</strong></div>
-                                <div class="col-md-8">{{ report.StageOfCatch }}</div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Patient Information -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Patient Information</h5>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-4"><strong>Initials:</strong></div>
-                                <div class="col-md-8">{{ report.PatientName }}</div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-4"><strong>MRN:</strong></div>
-                                <div class="col-md-8">{{ report.PatientMRN }}</div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- Description of Incident -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Description of Event</h5>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p>{{ report.IncidentDescription }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Reported By -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Reported By</h5>
-                    <div class="row">
-                        <div class="col-md-4"><strong>Name:</strong></div>
-                        <div class="col-md-8">{{ report.Name }}</div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{% url 'showReports' %}" class="btn btn-secondary">Back to Reports</a>
+<div class="row">
+  <div class="col-lg-8">
+    <div class="ns-card mb-4">
+      <div class="card-head">Event Details</div>
+      <div class="card-body">
+        <div class="detail-grid">
+          <div class="item"><div class="k">Event type</div><div class="v"><span class="badge-type {{ report.IncidentType|type_badge }}">{{ report.IncidentType|default:"—" }}</span></div></div>
+          <div class="item"><div class="k">Location</div><div class="v">{{ report.Location }}</div></div>
+          <div class="item"><div class="k">Event date</div><div class="v">{{ report.IncidentDate|date:'F j, Y' }}</div></div>
+          <div class="item"><div class="k">Stage caught</div><div class="v">{{ report.StageOfCatch|default:"—" }}</div></div>
+          <div class="item"><div class="k">Reporter</div><div class="v">{{ report.Name|default:"Anonymous" }}</div></div>
+          <div class="item"><div class="k">Team member role</div><div class="v">{{ report.TeamMember|default:"—" }}</div></div>
         </div>
+      </div>
     </div>
-</main>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-4h6E8c86D2oXoAk8Dm9j6zG6R87YVJzT+79iYrK70gmT9s7/0u/7rK70gdT" crossorigin="anonymous"></script>
-</body>
-</html>
+    <div class="ns-card mb-4">
+      <div class="card-head">Description of Event</div>
+      <div class="card-body">
+        <p class="description">{{ report.IncidentDescription }}</p>
+      </div>
+    </div>
+  </div>
 
-{%endblock%}
+  <div class="col-lg-4">
+    <div class="ns-card phi-card mb-4">
+      <div class="card-head"><span><i class="fas fa-user-shield mr-2"></i>Patient Information</span><span class="small font-weight-normal">PHI</span></div>
+      <div class="card-body">
+        <div class="detail-grid" style="grid-template-columns: 1fr;">
+          <div class="item"><div class="k">Patient initials</div><div class="v">{{ report.PatientName|default:"—" }}</div></div>
+          <div class="item"><div class="k">MRN</div><div class="v">{{ report.PatientMRN|default:"—" }}</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ns-card mb-4">
+      <div class="card-head">Record</div>
+      <div class="card-body">
+        <div class="detail-grid" style="grid-template-columns: 1fr;">
+          <div class="item"><div class="k">Report ID</div><div class="v">#{{ report.id }}</div></div>
+          <div class="item"><div class="k">Submitted</div><div class="v">{{ report.ReportDate|date:'m/d/Y g:i A' }}</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

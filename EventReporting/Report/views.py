@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect
 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from django.utils.http import url_has_allowed_host_and_scheme
 
 from django.contrib import messages 
 
@@ -11,7 +14,7 @@ from django.conf import settings
 from smtplib import SMTPException
 from datetime import datetime
 from .forms import incidentForm, editReportForm
-from .models import IncidentReport
+from .models import IncidentReport, ActivityLog
 
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
@@ -71,6 +74,36 @@ def selectCoordinatorEmail(incident):
     return email
 
 
+def _client_ip(request):
+    forwarded = request.META.get("HTTP_X_FORWARDED_FOR")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.META.get("REMOTE_ADDR")
+
+
+def _comparable(value):
+    """Normalise a field value so before/after comparisons ignore date-vs-datetime and None-vs-'' noise."""
+    if hasattr(value, "date") and callable(value.date):
+        return value.date()
+    return value if value not in (None, "") else ""
+
+
+def log_activity(request, action, report=None, details="", username=None):
+    """Write one ActivityLog row. Never lets a logging failure break the page."""
+    try:
+        user = request.user if request.user.is_authenticated else None
+        ActivityLog.objects.create(
+            user=user,
+            username=username if username is not None else (user.get_username() if user else ""),
+            action=action,
+            report_id=report.pk if report is not None else None,
+            details=details[:500],
+            ip_address=_client_ip(request),
+        )
+    except Exception as exc:  # pragma: no cover
+        print(f"activity log failed: {exc}")
+
+
 def addReport(request):
     
     if request.method == "POST":
@@ -78,7 +111,8 @@ def addReport(request):
 
         if form.is_valid():
             incident = form.save()
-            messages.success(request, ('Item has been Added to the list!'))
+            log_activity(request, "REPORT_ADDED", report=incident,
+                         details=f"Location={incident.Location}; Reporter={incident.Name}; Type={incident.IncidentType}")
             print('send mail')
 
             '''connection = mail.get_connection()
@@ -110,55 +144,76 @@ def addReport(request):
             #incident.delete()
             return render(request, 'reportSuccess.html', {})
         else:
-            messages.error(request, "Error")
             return render(request, 'report.html', {'errors': form.errors})
 
     else:
         return render(request, 'report.html', {})
 
+@login_required
 def showSingleReport(request, report_id):
     if request.method == "GET":
         showReport = IncidentReport.objects.get(pk = report_id)
+        log_activity(request, "REPORT_VIEWED", report=showReport)
         return render(request, 'showSingleReport.html', {'report':showReport})
 
 
+SORT_COLUMNS = [
+    ("id", "ID"),
+    ("Name", "Reporter"),
+    ("TeamMember", "Role"),
+    ("Location", "Location"),
+    ("IncidentDate", "Event Date"),
+    ("ReportDate", "Submitted"),
+    ("IncidentType", "Type"),
+]
+
+
+@login_required
 def showReports(request):
     orderBy = request.GET.get('order_by', '-ReportDate')
+    allowed = {k for k, _ in SORT_COLUMNS}
+    if orderBy.lstrip('-') not in allowed:   # ignore anything that is not a real sortable column
+        orderBy = '-ReportDate'
     reports = IncidentReport.objects.all().order_by(orderBy)
-    return render(request, 'showReports.html', {'reports':reports})
+    return render(request, 'showReports.html', {
+        'reports': reports,
+        'order_by': orderBy,
+        'sort_columns': SORT_COLUMNS,
+    })
 
+@login_required
+@require_POST
 def deleteReport(request, report_id):
     deleteReport = IncidentReport.objects.get(pk = report_id)
+    log_activity(request, "REPORT_DELETED", report=deleteReport,
+                 details=f"Location={deleteReport.Location}; Reporter={deleteReport.Name}; "
+                         f"EventDate={deleteReport.IncidentDate:%m-%d-%Y}; Type={deleteReport.IncidentType}")
     deleteReport.delete()
     requests = IncidentReport.objects.all
     return redirect('showReports')
 
 
+@login_required
 def editReport(request, report_id):
     if request.method == "POST":
         report = IncidentReport.objects.get(pk = report_id)
+        before = {f: _comparable(getattr(report, f)) for f in editReportForm.Meta.fields}
         form = editReportForm(request.POST or None, instance=report)
-        print(form.errors)
         if form.is_valid():
-            
-            messages.success(request, ('Item has been Edited'))
-           
             temReq = form.save()
-
-            requests = list(IncidentReport.objects.all())
-            
+            changed = [f for f in editReportForm.Meta.fields if _comparable(getattr(temReq, f)) != before[f]]
+            log_activity(request, "REPORT_EDITED", report=temReq,
+                         details=("Changed: " + ", ".join(changed)) if changed else "No field changes")
+            messages.success(request, f'Report #{report_id} has been updated.')
             return redirect('showReports')
         else:
            
-            print("Farts")
-            messages.error(request, "Error")
-            requests = IncidentReport.objects.all()
-            return redirect('showReports')
+            messages.error(request, "The report could not be saved. Please check the highlighted fields.")
+            return render(request, 'editReport.html', {'report': report, 'errors': form.errors})
            
     else:
         
         report = IncidentReport.objects.get(pk = report_id)
-        print(report.Name)
         return render(request, 'editReport.html', {'report':report})
 
 
@@ -170,14 +225,19 @@ def loginUser(request):
         user = authenticate(request, username = username, password = password)
         if user is not None:
             login(request, user)
-            messages.success(request, ('Login Successful'))
-            return redirect(showReports)
+            log_activity(request, "LOGIN")
+            messages.success(request, 'Signed in successfully.')
+            next_url = request.GET.get('next') or request.POST.get('next')
+            if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}):
+                return redirect(next_url)
+            return redirect('showReports')
             
         else:
             storage = messages.get_messages(request)
             storage.used = True
 
-            messages.error(request, ('Incorrect login credentials'))
+            log_activity(request, "LOGIN_FAILED", username=username or "", details="Incorrect credentials")
+            messages.error(request, 'Incorrect username or password.')
             return render(request, 'login.html')
 
     else:
@@ -185,10 +245,17 @@ def loginUser(request):
         return render(request, 'login.html', {})
     
 def logoutUser(request):
+    log_activity(request, "LOGOUT")
     logout(request)
-    messages.success(request, ('You have Been Logged Out'))
+    messages.success(request, 'You have been signed out.')
     return redirect('login')
 
+
+
+@login_required
+def activityLog(request):
+    logs = ActivityLog.objects.select_related("user")[:500]
+    return render(request, 'activityLog.html', {'logs': logs})
 
 
 def createPDF(incident):

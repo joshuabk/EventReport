@@ -139,3 +139,7 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Where @login_required sends users who are not logged in
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'showReports'

@@ -1,185 +1,61 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
+{% block title %}Submit Event Report{% endblock %}
 
-
-{% block content%}
-
-
-<form class="form-inline my-2 my-lg-0" action ="{% url 'addReport' %}" method = "POST"  >
-    {% csrf_token %}
-
-   <div class="card mx-auto" id  = 'mainCard'>
-    <div class="card-body mx-auto">
-    {{errors}}
-    <H5 class = "text-center">Event Report Form</H5>
-    <table>
-  
-
-    <tr><td>Reporter Name: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Optional"  name = 'Name'></td></tr>
-
-    <tr><td>Team Member: </td><td> <select name ='TeamMember' class="form-control">
-        <option value="" disabled selected>select</option><option value="Therapist">Therapist</option> <option value="Dosimetrist">Dosimetrist</option> <option value="Physicist">Physicist</option> <option value="Nurse">Nurse</option> <option value="Radiation Oncologist">Radiation Oncologist</option><option value="Administrator">Admisitrator</option> </select></td></tr>
-
-    
-    <tr><td>Location: </td><td><select class="form-control"  name = 'Location' required = True> <option value="" disabled selected>select</option><option value="Atlanta">Atlanta</option>
-    <option value="Cherokee">Cherokee</option><option value="Alpharetta">Alpharetta</option><option value="Forsyth">Forsyth</option>
-    <option value="Duluth Hwy">Duluth Hwy</option><option value="Gwinnett">Gwinnett</option><option value="Phillip Blvd">Phillip Blvd</option>
-    <option value="Preston Ridge">Preston Ridge</option><option value="Midtown">Midtown</option><option value="Macon">Macon</option>
-    <option value="Lake Oconee">Lake Oconee</option><option value="Hawkinsville">Hawkinsville</option><option value="South Atlanta">South Atlanta</option>
-    <option value="Blairsville">Blairsville</option><option value="Conyers">Conyers</option><option value="Covington">Covington</option>
-    <option value="Decatur">Decatur</option><option value="Snellville">Snellville</option>
-  </select></td></tr>
-     
-    <tr><td>Event Date</td><td> <input type="date" class="form-control" id="daInput" name="IncidentDate"></td></tr>
-
-    <tr><td>Patient Initials: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Patient Initials"  name = 'PatientName'></td></tr>
-    
-    <tr><td>Patient MRN: </td><td><input class="form-control mr-sm-2" type="text" placeholder="Patient MRN"  name = 'PatientMRN'></td></tr>
-    
-    <tr><td>Event Type: </td><td> <select name ='IncidentType'  class="form-control">
-        <option value="" disabled selected>select</option>
-        <option value="Near Miss" title="An event that relates to a specific patient, but did not reach or affect the patient."">Near Miss</option> 
-        <option value="Unsafe Condition" title = "A condition that increases the probability of a safety event. Not related to a specific patient.">Unsafe Condition</option> 
-        <option value="Process Improvement" title = "An event that is not directly related to safety but contributes to inefficiency or confusion.">Process Improvement</option>  
-        <option value="Therapuetic radiation incident" title = "An event involving the delivery of some part of a therapeutic dose. Dose delivered not as intended. With or without harm.">Therapuetic radiation incident</option> 
-        <option value="Other safety incident" title = "An event that directly affects a patient but not involving therapeutic radiation dose. With or without harm. Example: Fall, gantry collision with patient.">Other safety incident</option></select>
-        <span id="helpIcon" class="fa fa-question-circle"></span>
-    </td>
-    </tr>
-    <div id="helpPopup" class="help-popup">
-        <div class="help-content">
-          <span class="close-btn">&times;</span>
-          <h3>Event Type Descriptions</h3>
-          <ul>
-            <li><strong>Near Miss:</strong> An event that relates to a specific patient, but did not reach or affect the patient. <br> Example: The absence of kidney blocking on a spine field caught by pretreatment imaging and corrected before treatment delivery.</li>
-            <li><strong>Unsafe Condition:</strong> A condition that increases the probability of a safety event. Not related to a specific patient. <br> Example: The absence of a policy related to allowed IGRT alignment tolerances for SBRT resulting in confusion and uncertainty among staff.</li>
-            <li><strong>Process Improvement:</strong> An event that is not directly related to safety but contributes to inefficiency or confusion. <br> Example: Physician not alerted that the patient is ready to be seen, resulting in delay for the patient and those that follow.</li>
-            <li><strong>Therapeutic radiation incident:</strong>This category involves the delivery of some part of a therapeutic dose. Dose delivered not as intended. With or without harm. <br> Examples: Improper targeting of a lung tumor results in delivery of dose to a benign nodule. Overdose due to error in machine commissioning. One fraction of a 25-fraction course delivered at the wrong SSD resulting in a 2 Gy discrepancy between planned and delivered doses.</li>
-            <li><strong>Other safety incident:</strong> An event that directly affects a patient but not involving therapeutic radiation dose. With or without harm. <br> Examples: Fall, Gantry collision with patient.</li>
-          </ul>
-        </div>
-      </div>
-        
-  
-    
-    
-    <tr><td>Stage Caught: </td><td> <select name ='StageOfCatch' class="form-control">
-        <option value="" disabled selected>select</option><option value="Simulation">Simulation</option> <option value="Planning">Planning</option> <option value="Plan Review">Plan Review</option> <option value="Initial Check">Initial Check</option><option value="Treatment">Treatment</option><option value="Treatment Review">Treatment Review</option><option value="Post Treatment">Post Treatment</option></select></td></tr>
-
-    <tr><td>Event Description:<br>
-            (1-2 line summary)</td><td><textarea rows="4" cols="50" name = "IncidentDescription" ></textarea></td></tr>
-
-        
-
-</table><br>
-
-</div>
-<button class="btn btn-outline-success my-2 my-sm-0 ml-5 mr-5" type="submit">Save</button>
-</div>
-
-<script>
- document.addEventListener("DOMContentLoaded", function () {
-  const helpIcon = document.getElementById("helpIcon");
-  const helpPopup = document.getElementById("helpPopup");
-  const closeBtn = document.querySelector(".close-btn");
-
-  // Show the help popup when clicking the help icon
-  helpIcon.addEventListener("click", function () {
-    helpPopup.style.display = "block";
-  });
-
-  // Hide the popup when clicking the close button
-  closeBtn.addEventListener("click", function () {
-    helpPopup.style.display = "none";
-  });
-
-  // Hide the popup when clicking outside of it
-  window.addEventListener("click", function (event) {
-    if (event.target === helpPopup) {
-      helpPopup.style.display = "none";
-    }
-  });
-});
-</script>
-
- 
-
-</form>
-
+{% block head %}
 <style>
-        #mainCard{
-            margin-bottom: 150px
-        }
-
-        .help-icon {
-  font-size: 18px;
-  cursor: pointer;
-  color: #007bff;
-  margin-left: 10px;
-}
-
-.help-icon:hover {
-  color: #0056b3;
-}
-
-/* Popup styling */
-.help-popup {
-  display: none;
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-  width: 600px;
-  max-width: 90%;
-  z-index: 1000;
-}
-
-.help-content {
-  text-align: left;
-}
-
-.help-content h3 {
-  margin-top: 0;
-}
-
-.help-content ul {
-  padding-left: 20px;
-}
-
-.help-content li {
-  margin-bottom: 10px;
-}
-
-/* Close button */
-.close-btn {
-  float: right;
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.close-btn:hover {
-  color: red;
-}
-
-/* Background overlay */
-.help-popup::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: -1;
-}
-}
-    
+  .help-list dt { font-weight: 600; color: var(--ns-navy); margin-top: 10px; }
+  .help-list dt:first-child { margin-top: 0; }
+  .help-list dd { margin-bottom: 6px; }
 </style>
+{% endblock %}
 
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Submit an Event Report</h1>
+    <p class="lead-text">Report near misses, unsafe conditions, process issues and safety incidents. Fields marked <span class="text-danger">*</span> are required.</p>
+  </div>
+</div>
 
+<div class="row justify-content-center">
+  <div class="col-lg-9">
+    {% if errors %}
+    <div class="alert alert-danger">
+      <strong>The report could not be saved.</strong> Please check the following:
+      <ul class="mb-0 mt-1">
+        {% for field, errs in errors.items %}<li><strong>{{ field }}</strong>: {{ errs|join:", " }}</li>{% endfor %}
+      </ul>
+    </div>
+    {% endif %}
 
-{%endblock%}
+    <form action="{% url 'addReport' %}" method="POST" novalidate class="ns-card" id="reportForm">
+      {% csrf_token %}
+      <div class="card-head">
+        <span><i class="fas fa-file-medical mr-2"></i>Event Report Form</span>
+      </div>
+      <div class="card-body">
+        {% include '_reportFields.html' %}
+      </div>
+      <div class="card-head" style="border-top:1px solid var(--ns-line); border-bottom:0; justify-content:flex-end; gap:10px;">
+        <button type="reset" class="btn btn-ns-outline">Clear</button>
+        <button type="submit" class="btn btn-ns px-4"><i class="fas fa-paper-plane mr-2"></i>Submit Report</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  (function () {
+    var ta = document.getElementById('id_IncidentDescription');
+    var counter = document.getElementById('descCount');
+    function update() { counter.textContent = ta.value.length; }
+    ta.addEventListener('input', update); update();
+
+    // Default event date to today if empty
+    var d = document.getElementById('id_IncidentDate');
+    if (d && !d.value) { d.value = new Date().toISOString().slice(0, 10); }
+  })();
+</script>
+{% endblock %}

@@ -1,42 +1,20 @@
-<title>Event Reports</title>
-<style>
-  tr:nth-child(odd) {
-    background-color: #ffffff;
-  }
-
-</style>
-   
- 
-
-   <td>{{report.id}}</td> 
-   <td>{{report.Name}}</td>
-   <td>{{report.TeamMember}}</td>
-   <td>{{report.Location}}</td>
-
-   <td>{{report.IncidentDate|date:'m/d/Y'}}</td>
-
-   <td>{{report.ReportDate|date:'m/d/Y'}}</td>
-
-   <td>{{report.IncidentType}}</td>
-        
-       
-    <td><textarea rows="3" cols="20" readonly style="border: none">{{report.IncidentDescription}}</textarea></td>
-
-    <td>
-      <form action="{% url 'showSingleReport' report.pk %}" method="get" style="display:inline;">
-          {% csrf_token %}
-         <button class="show"  role="button"><i class="fas fa-file-invoice"></i></button>
-      </form></td>
-    <td>
-    <form action="{% url 'editReport' report.pk %}" method="get" style="display:inline;">
-        {% csrf_token %}
-       <button class="edit"  role="button"><i class="fa fa-edit"></i></button>
-    </form></td>
-    <td>
-    <form action="{% url 'deleteReport' report.pk %}" method="post" style="display:inline;">
+{% load report_extras %}
+<tr data-row>
+  <td class="id">#{{ report.id }}</td>
+  <td>{{ report.Name|default:"<span class='text-muted'>Anonymous</span>" }}</td>
+  <td>{{ report.TeamMember|default:"—" }}</td>
+  <td class="nowrap">{{ report.Location }}</td>
+  <td class="nowrap">{{ report.IncidentDate|date:'m/d/Y' }}</td>
+  <td class="nowrap">{{ report.ReportDate|date:'m/d/Y' }}</td>
+  <td><span class="badge-type {{ report.IncidentType|type_badge }}">{{ report.IncidentType|type_short|default:"—" }}</span></td>
+  <td class="desc">{{ report.IncidentDescription|truncatechars:140 }}</td>
+  <td class="actions">
+    <a class="icon-btn" href="{% url 'showSingleReport' report.pk %}" title="View full report"><i class="fas fa-file-alt"></i></a>
+    <a class="icon-btn" href="{% url 'editReport' report.pk %}" title="Edit report"><i class="fas fa-pen"></i></a>
+    <form action="{% url 'deleteReport' report.pk %}" method="post"
+          onsubmit="return confirm('Permanently delete report #{{ report.id }}? This cannot be undone.');">
       {% csrf_token %}
-      <button class="delete"  onclick="return confirm('Are you sure you want to delete this entry?')" role="button"><i class="fa fa-trash"></i></button>
-  </form></td>
-   
-
- 
+      <button type="submit" class="icon-btn danger" title="Delete report"><i class="fas fa-trash-alt"></i></button>
+    </form>
+  </td>
+</tr>

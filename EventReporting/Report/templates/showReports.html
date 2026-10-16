@@ -1,95 +1,118 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
+{% load report_extras %}
+{% block title %}Event Reports{% endblock %}
 
-
-
-{% block content%}
-<title>Incident Reports</title>
+{% block head %}
 <style>
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    max-width: 1000px;
-    margin: 20px auto;
+  .ns-table { margin: 0; font-size: .9rem; }
+  .ns-table thead th {
+    background: #F9FAFC; color: var(--ns-muted); font-weight: 600; font-size: .75rem;
+    text-transform: uppercase; letter-spacing: .06em; border-top: 0; border-bottom: 1px solid var(--ns-line);
+    white-space: nowrap; padding: 10px 12px;
   }
-  th, td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
+  .ns-table thead th a { color: inherit; text-decoration: none; }
+  .ns-table thead th a:hover { color: var(--ns-navy); }
+  .ns-table thead th .sort { margin-left: 4px; opacity: .45; }
+  .ns-table thead th.sorted { color: var(--ns-navy); }
+  .ns-table thead th.sorted .sort { opacity: 1; }
+  .ns-table tbody td { padding: 11px 12px; vertical-align: top; border-top: 1px solid var(--ns-line); }
+  .ns-table tbody tr:hover { background: var(--ns-sky); }
+  .ns-table .id { color: var(--ns-muted); font-variant-numeric: tabular-nums; }
+  .ns-table .desc { min-width: 240px; color: #374151; line-height: 1.45; font-size: .86rem; }
+  .ns-table .actions { width: 1%; }
+  .ns-table .nowrap { white-space: nowrap; }
+  .ns-table .actions { white-space: nowrap; text-align: right; padding-left: 6px; padding-right: 10px; }
+  .ns-table .actions form { display: inline; }
+  .icon-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--ns-line);
+    background: #fff; color: var(--ns-muted); margin-left: 3px; transition: all .15s; font-size: .85rem;
   }
-  th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-  }
-.even {
-    background-color: #f2f2f2; /* Light gray */
-}
+  .icon-btn:hover { color: var(--ns-navy); border-color: var(--ns-navy); text-decoration: none; }
+  .icon-btn.danger:hover { color: #fff; background: var(--ns-danger); border-color: var(--ns-danger); }
 
-.odd {
-    background-color: #ffffff; /* White */
-}
-  th, td {
-    width: auto;
-}
-  .btn {
-    padding: 8px 16px;
-    margin: 4px 2px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    transition-duration: 0.4s;
-    cursor: pointer;
-    border-radius: 4px;
+  .badge-type {
+    display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: .72rem; font-weight: 600;
+    white-space: nowrap; letter-spacing: .01em;
   }
-  .btn-edit {
-    background-color: #008CBA; 
-    color: white;
-    border: none;
-  }
-  .btn-edit:hover {
-    background-color: #007BB5;
-  }
-  .btn-delete {
-    background-color: #f44336; 
-    color: white;
-    border: none;
-  }
-  .btn-delete:hover {
-    background-color: #DA190B;
-  }
-  .description {
-    white-space: normal;
-    word-wrap: break-word;
-  }
+  .badge-nearmiss  { background: #FEF3C7; color: #92400E; }
+  .badge-unsafe    { background: #FFEDD5; color: #9A3412; }
+  .badge-process   { background: #E0F2FE; color: #075985; }
+  .badge-radiation { background: #FEE2E2; color: #991B1B; }
+  .badge-other     { background: #EDE9FE; color: #5B21B6; }
+  .badge-default   { background: #F3F4F6; color: #374151; }
+
+  .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .toolbar .search { position: relative; }
+  .toolbar .search input { padding-left: 32px; width: 260px; }
+  .toolbar .search i { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--ns-muted); font-size: .85rem; }
+  .count { color: var(--ns-muted); font-size: .85rem; }
+  .empty { padding: 48px; text-align: center; color: var(--ns-muted); }
 </style>
-</head>
+{% endblock %}
 
-<h1 class = "text-center  mb-5">Event Reports</h1>
-
-<table border = "1" class = "table ">
-
-
-
-{% if user.is_authenticated %} 
-
-
-<table border = "1" class = "table ">
-    <thead><th><a href="?order_by=id">ID</a><th><a href="?order_by=Name">Reporter</a></th><th><a href="?order_by=TeamMember">Team Member</a></th><th><a href="?order_by=Location">Location</a></th><th><a href="?order_by=IncidentDate">Event Date</a></th><th><a href="?order_by=ReportDate">Report Date</a></th><th><a href="?order_by=IncidentType">Event Type</a></th><th>Description</th></th><th>Show</th><th>Edit</th><th>Delete</th></thead>
-
-<tbody>
-{%for report in reports%}
-    <tr class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
-        {%include 'showReportBase.html'%}
-    </tr>
-{% endfor %}
-</tbody>
-</table>
-
-
-{% else %}
-<div class = "text-center">
-    <h1>Please Login to see Reports</h1>
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Event Reports</h1>
+    <p class="lead-text">All submitted reports. Click a column heading to sort.</p>
+  </div>
+  <a href="{% url 'addReport' %}" class="btn btn-ns"><i class="fas fa-plus mr-2"></i>New Report</a>
 </div>
-{%endif%}
 
-{%endblock%}
+<div class="ns-card">
+  <div class="card-head">
+    <div class="toolbar">
+      <div class="search">
+        <i class="fas fa-search"></i>
+        <input type="search" class="form-control form-control-sm" id="quickFilter" placeholder="Filter by reporter, location, type…">
+      </div>
+      <span class="count"><span id="rowCount">{{ reports|length }}</span> report{{ reports|length|pluralize }}</span>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table ns-table">
+      <thead>
+        <tr>
+          {% for key, label in sort_columns %}
+          <th class="{% if order_by == key or order_by == '-'|add:key %}sorted{% endif %}">
+            <a href="?order_by={% if order_by == key %}-{{ key }}{% else %}{{ key }}{% endif %}">
+              {{ label }}
+              <i class="fas sort {% if order_by == key %}fa-sort-up{% elif order_by == '-'|add:key %}fa-sort-down{% else %}fa-sort{% endif %}"></i>
+            </a>
+          </th>
+          {% endfor %}
+          <th>Description</th>
+          <th class="text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for report in reports %}
+          {% include 'showReportBase.html' %}
+        {% empty %}
+          <tr><td colspan="9" class="empty"><i class="fas fa-inbox fa-2x d-block mb-2"></i>No reports have been submitted yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  (function () {
+    var input = document.getElementById('quickFilter');
+    var rows = Array.prototype.slice.call(document.querySelectorAll('tbody tr[data-row]'));
+    var count = document.getElementById('rowCount');
+    input.addEventListener('input', function () {
+      var q = input.value.trim().toLowerCase(), shown = 0;
+      rows.forEach(function (r) {
+        var hit = !q || r.textContent.toLowerCase().indexOf(q) !== -1;
+        r.style.display = hit ? '' : 'none'; if (hit) shown++;
+      });
+      count.textContent = shown;
+    });
+  })();
+</script>
+{% endblock %}

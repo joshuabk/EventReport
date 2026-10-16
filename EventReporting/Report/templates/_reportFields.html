@@ -1,0 +1,120 @@
+{% load report_extras %}
+{# Shared form fields for Submit and Edit. When `report` is set, values are pre-filled. #}
+
+<div class="form-section">
+  <h6>Reporter</h6>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label class="ns-label" for="id_Name">Reporter name</label>
+      <input class="form-control" type="text" id="id_Name" name="Name" maxlength="25"
+             placeholder="Optional — leave blank to report anonymously" value="{{ report.Name|default_if_none:'' }}">
+    </div>
+    <div class="form-group col-md-6">
+      <label class="ns-label" for="id_TeamMember">Team member role</label>
+      <select class="form-control" id="id_TeamMember" name="TeamMember">
+        <option value="" {% if not report.TeamMember %}selected{% endif %} disabled>Select role…</option>
+        {% for v in "Therapist,Dosimetrist,Physicist,Nurse,Radiation Oncologist,Administrator"|split_commas %}
+          <option value="{{ v }}" {% if report.TeamMember == v %}selected{% endif %}>{{ v }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="form-section">
+  <h6>Event</h6>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label class="ns-label req" for="id_Location">Location</label>
+      <select class="form-control" id="id_Location" name="Location" required>
+        <option value="" {% if not report.Location %}selected{% endif %} disabled>Select location…</option>
+        {% for v in "Alpharetta,Atlanta,Blairsville,Cherokee,Conyers,Covington,Decatur,Duluth Hwy,Forsyth,Gwinnett,Hawkinsville,Lake Oconee,Macon,Midtown,Phillip Blvd,Preston Ridge,Snellville,South Atlanta"|split_commas %}
+          <option value="{{ v }}" {% if report.Location == v %}selected{% endif %}>{{ v }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group col-md-6">
+      <label class="ns-label req" for="id_IncidentDate">Event date</label>
+      <input type="date" class="form-control" id="id_IncidentDate" name="IncidentDate" required
+             value="{{ report.IncidentDate|date:'Y-m-d' }}">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label class="ns-label req" for="id_IncidentType">
+        Event type
+        <a href="#" class="ml-1 text-muted" data-toggle="modal" data-target="#eventTypeHelp" title="Event type definitions"><i class="fas fa-question-circle"></i></a>
+      </label>
+      <select class="form-control" id="id_IncidentType" name="IncidentType" required>
+        <option value="" {% if not report.IncidentType %}selected{% endif %} disabled>Select type…</option>
+        <option value="Near Miss" {% if report.IncidentType == "Near Miss" %}selected{% endif %}>Near Miss</option>
+        <option value="Unsafe Condition" {% if report.IncidentType == "Unsafe Condition" %}selected{% endif %}>Unsafe Condition</option>
+        <option value="Process Improvement" {% if report.IncidentType == "Process Improvement" %}selected{% endif %}>Process Improvement</option>
+        <option value="Therapuetic radiation incident" {% if report.IncidentType == "Therapuetic radiation incident" %}selected{% endif %}>Therapeutic Radiation Incident</option>
+        <option value="Other safety incident" {% if report.IncidentType == "Other safety incident" %}selected{% endif %}>Other Safety Incident</option>
+      </select>
+    </div>
+    <div class="form-group col-md-6">
+      <label class="ns-label" for="id_StageOfCatch">Stage caught</label>
+      <select class="form-control" id="id_StageOfCatch" name="StageOfCatch">
+        <option value="" {% if not report.StageOfCatch %}selected{% endif %}>Not applicable / unknown</option>
+        {% for v in "Simulation,Planning,Plan Review,Initial Check,Treatment,Treatment Review,Post Treatment"|split_commas %}
+          <option value="{{ v }}" {% if report.StageOfCatch == v %}selected{% endif %}>{{ v }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="form-section">
+  <h6>Patient</h6>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label class="ns-label" for="id_PatientName">Patient initials</label>
+      <input class="form-control" type="text" id="id_PatientName" name="PatientName" maxlength="30"
+             placeholder="e.g. J.D." value="{{ report.PatientName|default_if_none:'' }}">
+    </div>
+    <div class="form-group col-md-6">
+      <label class="ns-label" for="id_PatientMRN">Patient MRN</label>
+      <input class="form-control" type="text" id="id_PatientMRN" name="PatientMRN" maxlength="30"
+             inputmode="numeric" value="{{ report.PatientMRN|default_if_none:'' }}">
+      <div class="form-hint">Leave blank if the event is not tied to a specific patient.</div>
+    </div>
+  </div>
+</div>
+
+<div class="form-section">
+  <h6>Description</h6>
+  <div class="form-group mb-0">
+    <label class="ns-label req" for="id_IncidentDescription">Event description</label>
+    <textarea class="form-control" id="id_IncidentDescription" name="IncidentDescription" rows="4" maxlength="300" required
+              placeholder="Brief 1–2 line summary of what happened and how it was identified.">{{ report.IncidentDescription|default_if_none:'' }}</textarea>
+    <div class="form-hint"><span id="descCount">0</span> / 300 characters</div>
+  </div>
+</div>
+
+{# ---------- Event type definitions modal ---------- #}
+<div class="modal fade" id="eventTypeHelp" tabindex="-1" role="dialog" aria-labelledby="eventTypeHelpTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eventTypeHelpTitle">Event Type Definitions</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <dl class="mb-0 help-list">
+          <dt>Near Miss</dt>
+          <dd>An event that relates to a specific patient but did not reach or affect the patient.<br><span class="text-muted">Example: Absence of kidney blocking on a spine field, caught by pretreatment imaging and corrected before delivery.</span></dd>
+          <dt>Unsafe Condition</dt>
+          <dd>A condition that increases the probability of a safety event; not related to a specific patient.<br><span class="text-muted">Example: No policy on allowed IGRT alignment tolerances for SBRT, causing confusion among staff.</span></dd>
+          <dt>Process Improvement</dt>
+          <dd>Not directly related to safety but contributes to inefficiency or confusion.<br><span class="text-muted">Example: Physician not alerted that the patient is ready, delaying that patient and those that follow.</span></dd>
+          <dt>Therapeutic Radiation Incident</dt>
+          <dd>Delivery of some part of a therapeutic dose not as intended, with or without harm.<br><span class="text-muted">Examples: Improper targeting delivering dose to a benign nodule; overdose from a commissioning error; one fraction delivered at the wrong SSD causing a 2 Gy discrepancy.</span></dd>
+          <dt>Other Safety Incident</dt>
+          <dd>Directly affects a patient but does not involve therapeutic radiation dose, with or without harm.<br><span class="text-muted">Examples: Patient fall; gantry collision with patient.</span></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
